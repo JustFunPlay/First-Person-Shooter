@@ -16,7 +16,7 @@ public class CharacterHealth : MonoBehaviour
         }
     }
 
-    public void OnDeath()
+    public virtual void OnDeath()
     {
         Destroy(gameObject);
     }
