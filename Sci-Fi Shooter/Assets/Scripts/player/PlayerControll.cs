@@ -34,11 +34,11 @@ public class PlayerControll : CharacterHealth
     }
     public void OnFire(InputAction.CallbackContext callbackContext)
     {
-
+        GetComponentInChildren<GunBase>().Fire(callbackContext);
     }
     public void OnAltFire(InputAction.CallbackContext callbackContext)
     {
-
+        GetComponentInChildren<GunBase>().AltFire(callbackContext);
     }
 
     // Update is called once per frame

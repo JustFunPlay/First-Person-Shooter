@@ -10,6 +10,12 @@ public class PlayerInventory : ScriptableObject
     public GameObject secondaryGun;
     public int currentSecondaryAmmo;
     public GameObject melee;
+    public GameObject grenade;
+    public int grenadeCount;
+    public GameObject ability;
+    public float abilityCooldown;
+
+    public GameObject currentWeapon;
     
     public int lightAmmo;
     public int mediumAmmo;
