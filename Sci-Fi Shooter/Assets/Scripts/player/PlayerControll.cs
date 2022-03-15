@@ -7,6 +7,7 @@ public class PlayerControll : CharacterHealth
 {
     Rigidbody rb;
     public Transform cam;
+    public Transform camRot;
     Vector2 moveVector;
     Vector3 angles;
 
@@ -18,9 +19,14 @@ public class PlayerControll : CharacterHealth
     public Transform gunpos;
     public bool syncGunAim;
 
+    public int currentWeapon;
+    public int previousWeapon;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        Instantiate(inventory.weaponInventory[0].weapon, gunpos.position, gunpos.rotation, gunpos);
+        GetComponentInChildren<GunBase>().OnEquip(this);
     }
 
     public void OnMove(InputAction.CallbackContext callbackContext)
@@ -33,7 +39,7 @@ public class PlayerControll : CharacterHealth
         transform.Rotate(0, lookVector.x * lookSpeed, 0);
         angles.x -= lookVector.y * lookSpeed;
         angles.x = Mathf.Clamp(angles.x, -90f, 90f);
-        cam.localRotation = Quaternion.Euler(angles);
+        camRot.localRotation = Quaternion.Euler(angles);
     }
     public void OnFire(InputAction.CallbackContext callbackContext)
     {
@@ -60,7 +66,25 @@ public class PlayerControll : CharacterHealth
     {
         GetComponentInChildren<GunBase>().AltFire(callbackContext);
     }
-
+    public void EquipNext(int weaponIndex)
+    {
+        if (weaponIndex != currentWeapon)
+        {
+            previousWeapon = currentWeapon;
+            currentWeapon = weaponIndex;
+            GetComponentInChildren<GunBase>().OnUnEquip();
+            Destroy(GetComponentInChildren<GunBase>().gameObject);
+            GameObject newGun = Instantiate(inventory.weaponInventory[weaponIndex].weapon, gunpos.position, gunpos.rotation, gunpos);
+            newGun.GetComponent<GunBase>().OnEquip(this);
+        }
+        //StartCoroutine(EquipingNext(weaponIndex));
+    }
+    IEnumerator EquipingNext(int weaponIndex)
+    {
+        
+        yield return new WaitForSeconds(GetComponentInChildren<GunBase>().unEquipTime);
+        
+    }
 
     // Update is called once per frame
     void FixedUpdate()

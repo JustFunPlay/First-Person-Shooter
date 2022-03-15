@@ -11,18 +11,38 @@ public class AssaultRifleGun : GunBase
     public bool toggleFireMode;
     public Transform firePoint;
     public GameObject fakeHit;
+    bool faToggle;
+
+    public Vector3 recoilValue;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
-        print("check To Fire");
-        if (firemode == ArFiremode.single && callbackContext.started == true && canFire)
+        if (firemode == ArFiremode.single && callbackContext.started && canFire)
         {
-            print("go Fire");
             StartCoroutine(SingleShot());
+        }
+        else if (firemode == ArFiremode.auto && callbackContext.started && canFire)
+        {
+            faToggle = true;
+            StartCoroutine(FullAutoShot());
+        }
+        else if (firemode == ArFiremode.auto && callbackContext.canceled)
+        {
+            faToggle = false;
         }
     }
     public override void AltFire(InputAction.CallbackContext callbackContext)
     {
-
+        if (toggleFireMode && callbackContext.started)
+        {
+            if (firemode == ArFiremode.single)
+            {
+                firemode = ArFiremode.auto;
+            }
+            else
+            {
+                firemode = ArFiremode.single;
+            }
+        }
     }
     public override void Reload()
     {
@@ -31,6 +51,7 @@ public class AssaultRifleGun : GunBase
     public override void OnEquip(PlayerControll playerControll)
     {
         base.OnEquip(playerControll);
+        
     }
     public override void OnUnEquip()
     {
@@ -41,6 +62,22 @@ public class AssaultRifleGun : GunBase
     {
         canFire = false;
         print("fire");
+        ShootBullet();
+        yield return new WaitForSeconds(1f / attackSpeed);
+        canFire = true;
+    }
+    public IEnumerator FullAutoShot()
+    {
+        canFire = false;
+        while (faToggle)
+        {
+            ShootBullet();
+            yield return new WaitForSeconds(1f / attackSpeed);
+        }
+        canFire = true;
+    }
+    public void ShootBullet()
+    {
         if (Physics.Raycast(firePoint.position, firePoint.forward, out RaycastHit hit, 500f))
         {
             if (hit.collider.GetComponentInParent<CharacterHealth>())
@@ -49,8 +86,7 @@ public class AssaultRifleGun : GunBase
             }
             Instantiate(fakeHit, hit.point, Quaternion.identity);
         }
-        yield return new WaitForSeconds(1f / attackSpeed);
-        canFire = true;
+        GetComponentInParent<RecoilScript>().Recoil(recoilValue);
     }
 }
 [System.Serializable]

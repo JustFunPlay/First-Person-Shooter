@@ -12,11 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56b64d526ff5b54fa3697a82f3af382, type: 3}
   m_Name: New Player Inventory
   m_EditorClassIdentifier: 
-  primaryGun: {fileID: 0}
-  currentPrimaryAmmo: 0
-  secondaryGun: {fileID: 0}
-  currentSecondaryAmmo: 0
-  melee: {fileID: 0}
+  weaponInventory:
+  - weapon: {fileID: 4692424767122981717, guid: e8d491bee0f20a544a044658dbc6ab32, type: 3}
+    currentAmmo: 0
+  - weapon: {fileID: 4692424767122981717, guid: 9613cc20eb457a24f88cddb1cc1fa4c2, type: 3}
+    currentAmmo: 0
+  - weapon: {fileID: 0}
+    currentAmmo: 0
+  - weapon: {fileID: 3125177558377234286, guid: 3c722ee78dac36949be091944b1ea2d6, type: 3}
+    currentAmmo: 0
+  - weapon: {fileID: 0}
+    currentAmmo: 0
   lightAmmo: 0
   mediumAmmo: 0
   heavyAmmo: 0
+  shotgunAmmo: 0

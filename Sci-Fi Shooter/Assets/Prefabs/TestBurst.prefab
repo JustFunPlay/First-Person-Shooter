@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7022405053384958069}
-  - component: {fileID: -3443984848541154999}
+  - component: {fileID: 5202308147101642821}
   m_Layer: 0
-  m_Name: TestAR
+  m_Name: TestBurst
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -34,7 +34,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-3443984848541154999
+--- !u!114 &5202308147101642821
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,23 +43,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 4692424767122981717}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d9e0431650652e428cd99da4acd31dd, type: 3}
+  m_Script: {fileID: 11500000, guid: 0185dd137614c574c991f269d30cac09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoType: 1
-  damage: 12
-  maxAmmo: 25
+  ammoType: 0
+  damage: 15
+  maxAmmo: 0
   equipTime: 0.5
-  unEquipTime: 0.1
+  unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
-  attackSpeed: 5
+  burstCount: 3
+  burstDuration: 0.6
+  burstLockout: 0.2
+  bulletPoint: {fileID: 4657561602942861393}
   reloadTime: 2
-  firemode: 0
-  toggleFireMode: 1
-  firePoint: {fileID: 4657561602942861393}
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
-  recoilValue: {x: 6, y: 6, z: 1}
+  recoilValue: {x: 4, y: 4, z: 0.5}
 --- !u!1 &5346948708008082747
 GameObject:
   m_ObjectHideFlags: 0
@@ -120,7 +120,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 68285c174741fc04d9aad111e4ed3455, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -245,7 +245,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 68285c174741fc04d9aad111e4ed3455, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -342,7 +342,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 68285c174741fc04d9aad111e4ed3455, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

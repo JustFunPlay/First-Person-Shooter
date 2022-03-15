@@ -9,6 +9,7 @@ public class GunBase : MonoBehaviour
     public int damage;
     public int maxAmmo;
     public float equipTime;
+    public float unEquipTime;
     public bool canFire;
     public PlayerControll player;
     public virtual void Fire(InputAction.CallbackContext callbackContext)
@@ -26,10 +27,16 @@ public class GunBase : MonoBehaviour
     public virtual void OnEquip(PlayerControll playerControll)
     {
         player = playerControll;
+        StartCoroutine(Equiping());
     }
     public virtual void OnUnEquip()
     {
 
+    }
+    public virtual IEnumerator Equiping()
+    {
+        yield return new WaitForSeconds(equipTime);
+        canFire = true;
     }
 }
 

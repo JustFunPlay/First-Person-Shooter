@@ -7,7 +7,7 @@
             "actions": [
                 {
                     "name": "Fire",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "6867fd44-57a0-4178-9733-811b4c1b14ad",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -15,7 +15,7 @@
                 },
                 {
                     "name": "AltFire",
-                    "type": "PassThrough",
+                    "type": "Button",
                     "id": "ec09c862-039a-4bb9-bb82-46cc70c4aa76",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -34,6 +34,38 @@
                     "type": "Value",
                     "id": "12c77d20-39fb-4350-88c7-0c74861046c0",
                     "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "EquipPrimairy",
+                    "type": "Button",
+                    "id": "79a9d774-87f8-4b5e-9b79-d8c2d19a854f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "EquipSecondary",
+                    "type": "Button",
+                    "id": "d69efd26-9dbe-48b5-8782-05d83e7c3184",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "EquipMelee",
+                    "type": "Button",
+                    "id": "a9290f7b-f7d9-49c5-a908-f5981ce974d6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "EquipGrenade",
+                    "type": "Button",
+                    "id": "b9fd6989-1594-44b7-be24-0a953de9e365",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -124,6 +156,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b47e75be-e59c-4a91-a144-4e9d04c04a1c",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipPrimairy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d25f430d-a679-4058-be7c-ae943f716650",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipSecondary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a051956c-ff47-4b7b-a256-154d8d3d1c40",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipMelee",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "869a1f3b-8e3e-4ea1-ad52-5f4ec1ee8f12",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "EquipGrenade",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
