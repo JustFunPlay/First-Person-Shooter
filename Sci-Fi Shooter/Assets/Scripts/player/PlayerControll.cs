@@ -15,6 +15,9 @@ public class PlayerControll : CharacterHealth
 
     public PlayerInventory inventory;
 
+    public Transform gunpos;
+    public bool syncGunAim;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -34,16 +37,42 @@ public class PlayerControll : CharacterHealth
     }
     public void OnFire(InputAction.CallbackContext callbackContext)
     {
+        print("pressed Fire");
         GetComponentInChildren<GunBase>().Fire(callbackContext);
+        if (callbackContext.started)
+        {
+            print("should Fire");
+        }
+        if (callbackContext.canceled)
+        {
+            print("fire canceled");
+        }
+        if (callbackContext.performed)
+        {
+            print("fire performmed");
+        }
+    }
+    public void AimDownSights(InputAction.CallbackContext callbackContext)
+    {
+
     }
     public void OnAltFire(InputAction.CallbackContext callbackContext)
     {
         GetComponentInChildren<GunBase>().AltFire(callbackContext);
     }
 
+
     // Update is called once per frame
     void FixedUpdate()
     {
         rb.MovePosition(transform.position + transform.forward * moveVector.y * moveSpeed * Time.fixedDeltaTime + transform.right * moveVector.x * moveSpeed * Time.fixedDeltaTime);
+        if (syncGunAim && Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, 500f))
+        {
+            gunpos.LookAt(hit.point, cam.up);
+        }
+        else
+        {
+            gunpos.localRotation = new Quaternion();
+        }
     }
 }
