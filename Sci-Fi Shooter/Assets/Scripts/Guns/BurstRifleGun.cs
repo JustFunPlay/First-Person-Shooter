@@ -12,6 +12,7 @@ public class BurstRifleGun : GunBase
     public float reloadTime;
     public GameObject fakeHit;
     public Vector3 recoilValue;
+    public float accuracy;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
         if (canFire && callbackContext.started)
@@ -40,7 +41,8 @@ public class BurstRifleGun : GunBase
     }
     public void ShootBullet()
     {
-        if (Physics.Raycast(bulletPoint.position, bulletPoint.forward, out RaycastHit hit, 500f))
+        float convertedAccuracy = 2.5f * (100 - accuracy) / 100;
+        if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
         {
             if (hit.collider.GetComponentInParent<CharacterHealth>())
             {
