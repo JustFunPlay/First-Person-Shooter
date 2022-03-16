@@ -13,7 +13,7 @@ public class LivePulseGrenade : MonoBehaviour
         damage = damage_;
         blastDelay = delay_;
         blastRadius = radius_;
-        GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, 50), ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, 25), ForceMode.Impulse);
         //GetComponent<Rigidbody>().AddRelativeTorque(new Vector3(100, 100, 100), ForceMode.Impulse);
     }
     private void OnCollisionEnter(Collision collision)

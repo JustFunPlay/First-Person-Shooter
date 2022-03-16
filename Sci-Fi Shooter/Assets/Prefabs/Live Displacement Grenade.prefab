@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4804030625253844344}
-  - component: {fileID: 1738319209336829800}
   - component: {fileID: 7721882376203676883}
+  - component: {fileID: 428933331099777548}
   m_Layer: 0
-  m_Name: Live pulse grenade
+  m_Name: Live Displacement Grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,22 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1738319209336829800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3125177558377234286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea9ae1fd5de3eb4ca295d5cc8acda3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 0
-  blastDelay: 0
-  blastRadius: 0
-  boom: {fileID: 206653056997389002, guid: 5e0a82b96dc49e844bab99d2ef6e3adc, type: 3}
 --- !u!54 &7721882376203676883
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -65,6 +49,18 @@ Rigidbody:
   m_Interpolate: 2
   m_Constraints: 0
   m_CollisionDetection: 3
+--- !u!114 &428933331099777548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3125177558377234286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 752673e66d9dd6646aefbb84dc40f369, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7898501568673334330
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,7 +121,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 68285c174741fc04d9aad111e4ed3455, type: 2}
+  - {fileID: 2100000, guid: a04340e5acc4c5f4f8f6903e5f9cb9c0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

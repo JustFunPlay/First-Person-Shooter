@@ -365,21 +365,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammoType: 3
-  damage: 6
+  damage: 8
   maxAmmo: 10
   equipTime: 0.6
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
-  pellets: 24
+  pellets: 300
   attackSpeed: 4
   reloadTime: 0.6
   bulletPoint: {fileID: 2414927980378979088}
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
   recoilValue: {x: 15, y: 15, z: 3}
-  accuracy: 65
-  fireMode: 0
+  accuracy: 50
+  fireMode: 2
   canChoke: 1
   chokeDamageBoost: 2
   chokePelletReduction: 14
-  chockeAccuracyBoost: 15
+  chockeAccuracyBoost: 18

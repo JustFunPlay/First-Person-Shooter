@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponInventory:
   - weapon: {fileID: 4692424767122981717, guid: e8d491bee0f20a544a044658dbc6ab32, type: 3}
-    currentAmmo: 25
+    currentAmmo: 19
   - weapon: {fileID: 4692424767122981717, guid: 9613cc20eb457a24f88cddb1cc1fa4c2, type: 3}
-    currentAmmo: 36
+    currentAmmo: 31
   - weapon: {fileID: 8698053167681834476, guid: f932400293efe0d4582b1a77516c62a9, type: 3}
-    currentAmmo: 3
-  - weapon: {fileID: 3125177558377234286, guid: 3c722ee78dac36949be091944b1ea2d6, type: 3}
+    currentAmmo: 10
+  - weapon: {fileID: 3125177558377234286, guid: 78380db4e00acea4889e15d786a16316, type: 3}
     currentAmmo: 0
   - weapon: {fileID: 0}
     currentAmmo: 0
   lightAmmo: 999
-  mediumAmmo: 454
+  mediumAmmo: 999
   heavyAmmo: 999
-  shotgunAmmo: 668
+  shotgunAmmo: 953
