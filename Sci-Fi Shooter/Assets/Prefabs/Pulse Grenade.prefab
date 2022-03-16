@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8cd3814a6faeb4fbb7e583bd650460, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoType: 0
+  ammoType: 4
   damage: 100
   maxAmmo: 0
   equipTime: 0.4

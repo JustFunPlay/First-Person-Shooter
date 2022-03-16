@@ -53,14 +53,14 @@ MonoBehaviour:
   unEquipTime: 0.1
   canFire: 0
   player: {fileID: 0}
-  attackSpeed: 5
+  attackSpeed: 6
   reloadTime: 2
   firemode: 0
   toggleFireMode: 1
   firePoint: {fileID: 4657561602942861393}
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
   recoilValue: {x: 6, y: 6, z: 1}
-  accuracy: 98
+  accuracy: 90
 --- !u!1 &5346948708008082747
 GameObject:
   m_ObjectHideFlags: 0

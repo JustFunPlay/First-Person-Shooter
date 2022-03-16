@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerControll : CharacterHealth
 {
@@ -21,6 +22,10 @@ public class PlayerControll : CharacterHealth
 
     public int currentWeapon;
     public int previousWeapon;
+
+    public Text hpText;
+    public Text currentAmmoText;
+    public Text maxAmmoText;
 
     void Start()
     {
@@ -79,6 +84,10 @@ public class PlayerControll : CharacterHealth
         }
         //StartCoroutine(EquipingNext(weaponIndex));
     }
+    public void Reload()
+    {
+        GetComponentInChildren<GunBase>().Reload();
+    }
     IEnumerator EquipingNext(int weaponIndex)
     {
         
@@ -97,6 +106,30 @@ public class PlayerControll : CharacterHealth
         else
         {
             gunpos.localRotation = new Quaternion();
+        }
+    }
+    public void UpdateAmmo(AmmoType ammo)
+    {
+        currentAmmoText.text = inventory.weaponInventory[currentWeapon].currentAmmo.ToString();
+        if (ammo == AmmoType.Heavy)
+        {
+            maxAmmoText.text = inventory.heavyAmmo.ToString();
+        }
+        else if (ammo == AmmoType.Light)
+        {
+            maxAmmoText.text = inventory.lightAmmo.ToString();
+        }
+        else if (ammo == AmmoType.Medium)
+        {
+            maxAmmoText.text = inventory.mediumAmmo.ToString();
+        }
+        else if (ammo == AmmoType.Shotgun)
+        {
+            maxAmmoText.text = inventory.shotgunAmmo.ToString();
+        }
+        else
+        {
+            maxAmmoText.text = null;
         }
     }
 }

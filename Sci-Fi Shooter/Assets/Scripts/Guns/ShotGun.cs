@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class AssaultRifleGun : GunBase
+public class ShotGun : GunBase
 {
+    public int pellets;
     public float attackSpeed;
     public float reloadTime;
-    public ArFiremode firemode;
-    public bool toggleFireMode;
-    public Transform firePoint;
+    public Transform bulletPoint;
     public GameObject fakeHit;
-    bool faToggle;
-    bool keepFiring;
-
     public Vector3 recoilValue;
     public float accuracy;
+    bool faToggle;
+    bool keepFiring;
+    public SgFireMode fireMode;
     bool isReloading;
+
+
+    public bool canChoke;
+    bool choking;
+    public int chokeDamageBoost;
+    public int chokePelletReduction;
+    public float chockeAccuracyBoost;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
         if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0)
@@ -26,36 +32,56 @@ public class AssaultRifleGun : GunBase
                 StartCoroutine(Reloading());
             }
         }
-        else if (firemode == ArFiremode.single && callbackContext.started && canFire)
+        else if (fireMode == SgFireMode.Double && (callbackContext.started || callbackContext.canceled))
         {
-            StartCoroutine(SingleShot());
+            for (int i = 0; i < pellets; i++)
+            {
+                ShootBullet();
+            }
+            player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
+            player.UpdateAmmo(ammoType);
+            GetComponentInParent<RecoilScript>().Recoil(recoilValue);
+            if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0 && !isReloading)
+            {
+                StartCoroutine(Reloading());
+            }
         }
-        if (firemode == ArFiremode.auto && callbackContext.started)
+        else if (fireMode == SgFireMode.Single && callbackContext.started && canFire)
+        {
+            StartCoroutine(SingleFire());
+        }
+        if (fireMode == SgFireMode.Auto && callbackContext.started)
         {
             faToggle = true;
             keepFiring = true;
             if (canFire)
             {
-                StartCoroutine(FullAutoShot());
+                StartCoroutine(AutoFire());
             }
         }
-        else if (firemode == ArFiremode.auto && callbackContext.canceled)
+        else if (fireMode == SgFireMode.Auto && callbackContext.canceled)
         {
-            keepFiring = false;
             faToggle = false;
+            keepFiring = false;
         }
     }
     public override void AltFire(InputAction.CallbackContext callbackContext)
     {
-        if (toggleFireMode && callbackContext.started)
+        if (callbackContext.started && canChoke)
         {
-            if (firemode == ArFiremode.single)
+            if (choking)
             {
-                firemode = ArFiremode.auto;
+                damage -= chokeDamageBoost;
+                pellets += chokePelletReduction;
+                accuracy -= chockeAccuracyBoost;
+                choking = false;
             }
             else
             {
-                firemode = ArFiremode.single;
+                damage += chokeDamageBoost;
+                pellets -= chokePelletReduction;
+                accuracy += chockeAccuracyBoost;
+                choking = true;
             }
         }
     }
@@ -66,23 +92,17 @@ public class AssaultRifleGun : GunBase
             StartCoroutine(Reloading());
         }
     }
-    public override void OnEquip(PlayerControll playerControll)
-    {
-        base.OnEquip(playerControll);
-        
-    }
-    public override void OnUnEquip()
-    {
-        
-    }
 
-    public IEnumerator SingleShot()
+    IEnumerator SingleFire()
     {
         canFire = false;
-        print("fire");
-        ShootBullet();
+        for (int i = 0; i < pellets; i++)
+        {
+            ShootBullet();
+        }
         player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
         player.UpdateAmmo(ammoType);
+        GetComponentInParent<RecoilScript>().Recoil(recoilValue);
         yield return new WaitForSeconds(1f / attackSpeed);
         canFire = true;
         if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0 && !isReloading)
@@ -90,14 +110,19 @@ public class AssaultRifleGun : GunBase
             StartCoroutine(Reloading());
         }
     }
-    public IEnumerator FullAutoShot()
+    IEnumerator AutoFire()
     {
         canFire = false;
         while (faToggle && player.inventory.weaponInventory[player.currentWeapon].currentAmmo > 0)
         {
-            ShootBullet();
+            for (int i = 0; i < pellets; i++)
+            {
+                ShootBullet();
+
+            }
             player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
             player.UpdateAmmo(ammoType);
+            GetComponentInParent<RecoilScript>().Recoil(recoilValue);
             yield return new WaitForSeconds(1f / attackSpeed);
         }
         canFire = true;
@@ -109,7 +134,7 @@ public class AssaultRifleGun : GunBase
     public void ShootBullet()
     {
         float convertedAccuracy = (100 - accuracy) / 100;
-        if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
+        if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
         {
             if (hit.collider.GetComponentInParent<CharacterHealth>())
             {
@@ -117,9 +142,7 @@ public class AssaultRifleGun : GunBase
             }
             Instantiate(fakeHit, hit.point, Quaternion.identity);
         }
-        GetComponentInParent<RecoilScript>().Recoil(recoilValue);
     }
-
     IEnumerator Reloading()
     {
         canFire = false;
@@ -158,13 +181,15 @@ public class AssaultRifleGun : GunBase
         if (keepFiring)
         {
             faToggle = true;
-            StartCoroutine(FullAutoShot());
+            StartCoroutine(AutoFire());
         }
     }
 }
+
 [System.Serializable]
-public enum ArFiremode
+public enum SgFireMode
 {
-    single,
-    auto,
+    Double,
+    Single,
+    Auto
 }

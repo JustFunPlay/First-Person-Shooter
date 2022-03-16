@@ -27,6 +27,7 @@ public class GunBase : MonoBehaviour
     public virtual void OnEquip(PlayerControll playerControll)
     {
         player = playerControll;
+        player.UpdateAmmo(ammoType);
         StartCoroutine(Equiping());
     }
     public virtual void OnUnEquip()
@@ -46,5 +47,6 @@ public enum AmmoType
     Light,
     Medium,
     Heavy,
-    Shotgun
+    Shotgun,
+    Grenade
 }
