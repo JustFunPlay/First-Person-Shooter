@@ -60,7 +60,7 @@ MonoBehaviour:
   reloadTime: 2
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
   recoilValue: {x: 4, y: 4, z: 0.5}
-  accuracy: 99
+  accuracy: 96.3
 --- !u!1 &5346948708008082747
 GameObject:
   m_ObjectHideFlags: 0

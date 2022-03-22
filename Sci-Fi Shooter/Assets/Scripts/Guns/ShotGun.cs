@@ -17,12 +17,13 @@ public class ShotGun : GunBase
     public SgFireMode fireMode;
     bool isReloading;
 
-
     public bool canChoke;
     bool choking;
     public int chokeDamageBoost;
     public int chokePelletReduction;
     public float chockeAccuracyBoost;
+
+    public Animator animator;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
         if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0)
@@ -151,6 +152,8 @@ public class ShotGun : GunBase
         {
             faToggle = false;
         }
+        animator.speed = 1f / reloadTime;
+        animator.SetTrigger("Reload");
         yield return new WaitForSeconds(reloadTime);
         for (int i = player.inventory.weaponInventory[player.currentWeapon].currentAmmo; i < maxAmmo; i++)
         {
@@ -178,6 +181,7 @@ public class ShotGun : GunBase
         player.UpdateAmmo(ammoType);
         isReloading = false;
         canFire = true;
+        animator.speed = 1;
         if (keepFiring)
         {
             faToggle = true;
