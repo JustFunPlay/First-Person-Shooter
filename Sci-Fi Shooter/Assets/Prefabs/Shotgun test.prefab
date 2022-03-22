@@ -638,6 +638,7 @@ MonoBehaviour:
   chokeDamageBoost: 2
   chokePelletReduction: 14
   chockeAccuracyBoost: 26.2
+  adsRecoilReduction: 50
   animator: {fileID: 1738311151427757675}
 --- !u!95 &1738311151427757675
 Animator:

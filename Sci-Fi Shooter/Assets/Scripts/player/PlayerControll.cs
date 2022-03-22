@@ -65,7 +65,16 @@ public class PlayerControll : CharacterHealth
     }
     public void AimDownSights(InputAction.CallbackContext callbackContext)
     {
-
+        if (callbackContext.started)
+        {
+            GetComponentInChildren<Animator>().SetBool("ADS", true);
+            syncGunAim = false;
+        }
+        else if (callbackContext.canceled)
+        {
+            GetComponentInChildren<Animator>().SetBool("ADS", false);
+            syncGunAim = true;
+        }
     }
     public void OnAltFire(InputAction.CallbackContext callbackContext)
     {

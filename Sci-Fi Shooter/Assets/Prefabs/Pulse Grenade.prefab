@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammoType: 4
-  damage: 100
+  damage: 50
   maxAmmo: 0
   equipTime: 0.4
   unEquipTime: 0.1

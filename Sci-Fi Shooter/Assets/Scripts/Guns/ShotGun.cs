@@ -5,12 +5,14 @@ using UnityEngine.InputSystem;
 
 public class ShotGun : GunBase
 {
+    [Range(1, 50)]
     public int pellets;
     public float attackSpeed;
     public float reloadTime;
     public Transform bulletPoint;
     public GameObject fakeHit;
     public Vector3 recoilValue;
+    [Range(0f, 100f)]
     public float accuracy;
     bool faToggle;
     bool keepFiring;
@@ -20,9 +22,11 @@ public class ShotGun : GunBase
     public bool canChoke;
     bool choking;
     public int chokeDamageBoost;
+    [Range(1, 50)]
     public int chokePelletReduction;
     public float chockeAccuracyBoost;
-
+    [Range(0, 100)]
+    public float adsRecoilReduction;
     public Animator animator;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
@@ -35,13 +39,7 @@ public class ShotGun : GunBase
         }
         else if (fireMode == SgFireMode.Double && (callbackContext.started || callbackContext.canceled))
         {
-            for (int i = 0; i < pellets; i++)
-            {
-                ShootBullet();
-            }
-            player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
-            player.UpdateAmmo(ammoType);
-            GetComponentInParent<RecoilScript>().Recoil(recoilValue);
+            ShootBullet();
             if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0 && !isReloading)
             {
                 StartCoroutine(Reloading());
@@ -97,13 +95,7 @@ public class ShotGun : GunBase
     IEnumerator SingleFire()
     {
         canFire = false;
-        for (int i = 0; i < pellets; i++)
-        {
-            ShootBullet();
-        }
-        player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
-        player.UpdateAmmo(ammoType);
-        GetComponentInParent<RecoilScript>().Recoil(recoilValue);
+        ShootBullet();
         yield return new WaitForSeconds(1f / attackSpeed);
         canFire = true;
         if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0 && !isReloading)
@@ -116,14 +108,7 @@ public class ShotGun : GunBase
         canFire = false;
         while (faToggle && player.inventory.weaponInventory[player.currentWeapon].currentAmmo > 0)
         {
-            for (int i = 0; i < pellets; i++)
-            {
-                ShootBullet();
-
-            }
-            player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
-            player.UpdateAmmo(ammoType);
-            GetComponentInParent<RecoilScript>().Recoil(recoilValue);
+            ShootBullet();
             yield return new WaitForSeconds(1f / attackSpeed);
         }
         canFire = true;
@@ -135,13 +120,26 @@ public class ShotGun : GunBase
     public void ShootBullet()
     {
         float convertedAccuracy = (100 - accuracy) / 100;
-        if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
+        for (int i = 0; i < pellets; i++)
         {
-            if (hit.collider.GetComponentInParent<CharacterHealth>())
+            if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
             {
-                hit.collider.GetComponentInParent<CharacterHealth>().OnTakeDamage(damage);
+                if (hit.collider.GetComponentInParent<CharacterHealth>())
+                {
+                    hit.collider.GetComponentInParent<CharacterHealth>().OnTakeDamage(damage);
+                }
+                Instantiate(fakeHit, hit.point, Quaternion.identity);
             }
-            Instantiate(fakeHit, hit.point, Quaternion.identity);
+        }
+        player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
+        player.UpdateAmmo(ammoType);
+        if (animator.GetBool("ADS") == true)
+        {
+            GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction)/100));
+        }
+        else
+        {
+            GetComponentInParent<RecoilScript>().Recoil(recoilValue);
         }
     }
     IEnumerator Reloading()
