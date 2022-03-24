@@ -2164,6 +2164,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: yeetBarrier
       objectReference: {fileID: 0}
+    - target: {fileID: 5167365599878734648, guid: 1fb669f0adc556248a3dd1fbd049f92f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8406467640833161557, guid: 1fb669f0adc556248a3dd1fbd049f92f, type: 3}
       propertyPath: m_RootOrder
       value: 14
