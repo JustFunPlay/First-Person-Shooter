@@ -1014,8 +1014,10 @@ MonoBehaviour:
   toggleFireMode: 0
   firePoint: {fileID: 7051172856149547690}
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
-  recoilValue: {x: 2, y: 6.2, z: 0.1}
+  recoilValue: {x: 2, y: 5.8, z: 0.1}
   accuracy: 93.9
+  adsRecoilReduction: 30
+  animator: {fileID: 7162182749430352507}
 --- !u!95 &7162182749430352507
 Animator:
   serializedVersion: 3

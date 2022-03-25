@@ -58,7 +58,7 @@ public class BurstRifleGun : GunBase
     }
     public void ShootBullet()
     {
-        float convertedAccuracy = (100 - accuracy) / 100;
+        float convertedAccuracy = (100 - accuracy) / 75;
         if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
         {
             if (hit.collider.GetComponent<HitBox>())

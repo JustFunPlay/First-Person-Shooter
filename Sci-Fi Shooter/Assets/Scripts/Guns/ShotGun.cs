@@ -119,7 +119,8 @@ public class ShotGun : GunBase
     }
     public void ShootBullet()
     {
-        float convertedAccuracy = (100 - accuracy) / 100;
+        float convertedAccuracy = (100 - accuracy) / 75;
+        animator.SetTrigger("Shoot");
         for (int i = 0; i < pellets; i++)
         {
             if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))

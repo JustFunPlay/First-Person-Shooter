@@ -17,6 +17,8 @@ public class AssaultRifleGun : GunBase
     public Vector3 recoilValue;
     public float accuracy;
     bool isReloading;
+    public float adsRecoilReduction;
+    public Animator animator;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
         if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0)
@@ -108,7 +110,7 @@ public class AssaultRifleGun : GunBase
     }
     public void ShootBullet()
     {
-        float convertedAccuracy = (100 - accuracy) / 100;
+        float convertedAccuracy = (100 - accuracy) / 75;
         if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
         {
             if (hit.collider.GetComponent<HitBox>())
@@ -117,7 +119,14 @@ public class AssaultRifleGun : GunBase
             }
             Instantiate(fakeHit, hit.point, Quaternion.identity);
         }
-        GetComponentInParent<RecoilScript>().Recoil(recoilValue);
+        if (animator.GetBool("ADS") == true)
+        {
+            GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100));
+        }
+        else
+        {
+            GetComponentInParent<RecoilScript>().Recoil(recoilValue);
+        }
     }
 
     IEnumerator Reloading()
@@ -128,6 +137,8 @@ public class AssaultRifleGun : GunBase
         {
             faToggle = false;
         }
+        animator.speed = 1f / reloadTime;
+        animator.SetTrigger("Reload");
         yield return new WaitForSeconds(reloadTime);
         for (int i = player.inventory.weaponInventory[player.currentWeapon].currentAmmo; i < maxAmmo; i++)
         {
@@ -155,6 +166,7 @@ public class AssaultRifleGun : GunBase
         player.UpdateAmmo(ammoType);
         isReloading = false;
         canFire = true;
+        animator.speed = 1;
         if (keepFiring)
         {
             faToggle = true;

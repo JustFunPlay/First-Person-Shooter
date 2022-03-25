@@ -621,7 +621,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ammoType: 3
   damage: 8
-  maxAmmo: 2
+  maxAmmo: 4
   equipTime: 0.6
   unEquipTime: 0
   canFire: 0
