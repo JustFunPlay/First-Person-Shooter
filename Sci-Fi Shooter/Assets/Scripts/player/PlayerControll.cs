@@ -26,6 +26,7 @@ public class PlayerControll : CharacterHealth
     public Text hpText;
     public Text currentAmmoText;
     public Text maxAmmoText;
+    public GameObject crossHair;
 
     void Start()
     {
@@ -69,11 +70,13 @@ public class PlayerControll : CharacterHealth
         {
             GetComponentInChildren<Animator>().SetBool("ADS", true);
             syncGunAim = false;
+            crossHair.SetActive(false);
         }
         else if (callbackContext.canceled)
         {
             GetComponentInChildren<Animator>().SetBool("ADS", false);
             syncGunAim = true;
+            crossHair.SetActive(true);
         }
     }
     public void OnAltFire(InputAction.CallbackContext callbackContext)

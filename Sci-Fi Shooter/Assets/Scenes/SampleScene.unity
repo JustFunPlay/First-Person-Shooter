@@ -409,6 +409,7 @@ MonoBehaviour:
   hpText: {fileID: 1337544143}
   currentAmmoText: {fileID: 1291425463}
   maxAmmoText: {fileID: 148350021}
+  crossHair: {fileID: 1748796218}
 --- !u!54 &331414826
 Rigidbody:
   m_ObjectHideFlags: 0
