@@ -110,7 +110,8 @@ public class AssaultRifleGun : GunBase
     }
     public void ShootBullet()
     {
-        float convertedAccuracy = (100 - accuracy) / 75;
+        animator.SetTrigger("Shoot");
+        float convertedAccuracy = (100 - accuracy) / 200;
         if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
         {
             if (hit.collider.GetComponent<HitBox>())
