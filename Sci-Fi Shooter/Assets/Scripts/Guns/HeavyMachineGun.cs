@@ -18,11 +18,15 @@ public class HeavyMachineGun : GunBase
     public float currentAS;
     public int shotsFired;
 
+    public FixedSprayPattern[] sprayPattern;
+    int shotIndex;
+    float delayToReset;
+
     public Vector3 recoilValue;
     public float accuracy;
     bool isReloading;
     public float adsRecoilReduction;
-    //public Animator animator;
+    public Animator animator;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
         if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0)
@@ -73,36 +77,61 @@ public class HeavyMachineGun : GunBase
     }
     public void ShootBullet()
     {
-        //animator.SetTrigger("Shoot");
+        animator.SetTrigger("Shoot");
         float convertedAccuracy = (100 - accuracy) / 200;
-        if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
+        if (shotIndex >= sprayPattern.Length)
         {
-            if (hit.collider.GetComponent<HitBox>())
+            if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
             {
-                hit.collider.GetComponent<HitBox>().HitDamage(damage);
+                if (hit.collider.GetComponent<HitBox>())
+                {
+                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
+                }
+                Instantiate(fakeHit, hit.point, Quaternion.identity);
             }
-            Instantiate(fakeHit, hit.point, Quaternion.identity);
+            if (animator.GetBool("ADS") == true)
+            {
+                GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100), RecoilType.Procedural);
+            }
+            else
+            {
+                GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
+            }
         }
-        //if (animator.GetBool("ADS") == true)
-        //{
-        //    GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100), RecoilType.Procedural);
-        //}
-        //else
-        //{
-        GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
-        //}
+        else
+        {
+            if (Physics.Raycast(firePoint.position, firePoint.forward + sprayPattern[shotIndex].fixedSpray, out RaycastHit hit, 500f))
+            {
+                if (hit.collider.GetComponent<HitBox>())
+                {
+                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
+                }
+                Instantiate(fakeHit, hit.point, Quaternion.identity);
+            }
+            if (animator.GetBool("ADS") == true)
+            {
+                GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil * ((100 - adsRecoilReduction) / 100), RecoilType.Fixed);
+            }
+            else
+            {
+                GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil, RecoilType.Fixed);
+            }
+        }
+        shotIndex++;
+        delayToReset = 1;
         BoostFireRate();
     }
     IEnumerator Reloading()
     {
         canFire = false;
         isReloading = true;
+        delayToReset = 0;
         if (faToggle)
         {
             faToggle = false;
         }
-        //animator.speed = 1f / reloadTime;
-        //animator.SetTrigger("Reload");
+        animator.speed = 1f / reloadTime;
+        animator.SetTrigger("Reload");
         yield return new WaitForSeconds(reloadTime);
         for (int i = player.inventory.weaponInventory[player.currentWeapon].currentAmmo; i < maxAmmo; i++)
         {
@@ -130,7 +159,7 @@ public class HeavyMachineGun : GunBase
         player.UpdateAmmo(ammoType);
         isReloading = false;
         canFire = true;
-        //animator.speed = 1;
+        animator.speed = 1;
         if (keepFiring)
         {
             faToggle = true;
@@ -161,5 +190,16 @@ public class HeavyMachineGun : GunBase
     void CheckFireRate()
     {
         currentAS = attackSpeed * (1f + (maxASBonus / shotsToMaxBonus) * shotsFired);
+    }
+    private void FixedUpdate()
+    {
+        if (delayToReset > 0)
+        {
+            delayToReset -= Time.fixedDeltaTime;
+        }
+        else if (shotIndex > 0)
+        {
+            shotIndex--;
+        }
     }
 }

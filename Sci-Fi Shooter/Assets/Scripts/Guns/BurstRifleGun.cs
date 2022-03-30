@@ -11,9 +11,17 @@ public class BurstRifleGun : GunBase
     public Transform bulletPoint;
     public float reloadTime;
     public GameObject fakeHit;
+
+    public FixedSprayPattern[] sprayPattern;
+    int shotIndex;
+    float delayToReset;
+
     public Vector3 recoilValue;
     public float accuracy;
     bool isReloading;
+    public float adsRecoilReduction;
+    public Animator animator;
+
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
         if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0)
@@ -59,20 +67,52 @@ public class BurstRifleGun : GunBase
     public void ShootBullet()
     {
         float convertedAccuracy = (100 - accuracy) / 200;
-        if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
+        if (shotIndex >= sprayPattern.Length)
         {
-            if (hit.collider.GetComponent<HitBox>())
+            if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
             {
-                hit.collider.GetComponent<HitBox>().HitDamage(damage);
+                if (hit.collider.GetComponent<HitBox>())
+                {
+                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
+                }
+                Instantiate(fakeHit, hit.point, Quaternion.identity);
             }
-            Instantiate(fakeHit, hit.point, Quaternion.identity);
+            if (animator.GetBool("ADS") == true)
+            {
+                GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100), RecoilType.Procedural);
+            }
+            else
+            {
+                GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
+            }
         }
-        GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
+        else
+        {
+            if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + sprayPattern[shotIndex].fixedSpray, out RaycastHit hit, 500f))
+            {
+                if (hit.collider.GetComponent<HitBox>())
+                {
+                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
+                }
+                Instantiate(fakeHit, hit.point, Quaternion.identity);
+            }
+            if (animator.GetBool("ADS") == true)
+            {
+                GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil * ((100 - adsRecoilReduction) / 100), RecoilType.Fixed);
+            }
+            else
+            {
+                GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil, RecoilType.Fixed);
+            }
+        }
+        shotIndex++;
+        delayToReset = 1;
     }
     IEnumerator Reloading()
     {
         canFire = false;
         isReloading = true;
+        delayToReset = 0;
         yield return new WaitForSeconds(reloadTime);
         for (int i = player.inventory.weaponInventory[player.currentWeapon].currentAmmo; i < maxAmmo; i++)
         {
@@ -100,5 +140,16 @@ public class BurstRifleGun : GunBase
         player.UpdateAmmo(ammoType);
         isReloading = false;
         canFire = true;
+    }
+    private void FixedUpdate()
+    {
+        if (delayToReset > 0)
+        {
+            delayToReset -= Time.fixedDeltaTime;
+        }
+        else if (shotIndex > 0)
+        {
+            shotIndex--;
+        }
     }
 }
