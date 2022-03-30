@@ -67,7 +67,7 @@ public class BurstRifleGun : GunBase
             }
             Instantiate(fakeHit, hit.point, Quaternion.identity);
         }
-        GetComponentInParent<RecoilScript>().Recoil(recoilValue);
+        GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
     }
     IEnumerator Reloading()
     {

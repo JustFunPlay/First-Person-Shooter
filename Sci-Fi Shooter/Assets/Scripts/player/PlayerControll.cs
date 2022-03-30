@@ -9,6 +9,7 @@ public class PlayerControll : CharacterHealth
     Rigidbody rb;
     public Transform cam;
     public Transform camRot;
+    public Transform leanPoint;
     Vector2 moveVector;
     Vector3 angles;
 
@@ -82,6 +83,12 @@ public class PlayerControll : CharacterHealth
     public void OnAltFire(InputAction.CallbackContext callbackContext)
     {
         GetComponentInChildren<GunBase>().AltFire(callbackContext);
+    }
+    public void Lean(InputAction.CallbackContext callbackContext)
+    {
+        Vector3 leanAngle = new Vector3(0, 0, 20 * callbackContext.ReadValue<float>());
+        leanPoint.localRotation = Quaternion.Euler(leanAngle);
+        print(callbackContext.ReadValue<float>());
     }
     public void EquipNext(int weaponIndex)
     {

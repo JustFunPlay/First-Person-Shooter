@@ -493,6 +493,15 @@ MonoBehaviour:
   toggleFireMode: 0
   firePoint: {fileID: 7141723773735156609}
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
+  sprayPattern:
+  - fixedSpray: {x: 0, y: 0, z: 0}
+    fixedRecoil: {x: 1, y: 0, z: 0}
+  - fixedSpray: {x: 0.02, y: -0.015, z: 0.01}
+    fixedRecoil: {x: 2, y: 1, z: -0.005}
+  - fixedSpray: {x: -0.01, y: 0.015, z: -0.02}
+    fixedRecoil: {x: 3, y: -1.4, z: 0.06}
+  - fixedSpray: {x: 0.003, y: -0.008, z: -0.001}
+    fixedRecoil: {x: 4, y: 2.3, z: 0.11}
   recoilValue: {x: 3, y: 2, z: 0.1}
   accuracy: 95.4
   adsRecoilReduction: 30

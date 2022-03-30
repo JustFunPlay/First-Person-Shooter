@@ -50,3 +50,9 @@ public enum AmmoType
     Shotgun,
     Grenade
 }
+[System.Serializable]
+public class FixedSprayPattern
+{
+    public Vector3 fixedSpray;
+    public Vector3 fixedRecoil;
+}

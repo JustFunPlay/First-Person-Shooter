@@ -14,6 +14,10 @@ public class AssaultRifleGun : GunBase
     bool faToggle;
     bool keepFiring;
 
+    public FixedSprayPattern[] sprayPattern;
+    int shotIndex;
+    float delayToReset;
+
     public Vector3 recoilValue;
     public float accuracy;
     bool isReloading;
@@ -112,28 +116,53 @@ public class AssaultRifleGun : GunBase
     {
         animator.SetTrigger("Shoot");
         float convertedAccuracy = (100 - accuracy) / 200;
-        if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
+        if (shotIndex >= sprayPattern.Length)
         {
-            if (hit.collider.GetComponent<HitBox>())
+            if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
             {
-                hit.collider.GetComponent<HitBox>().HitDamage(damage);
+                if (hit.collider.GetComponent<HitBox>())
+                {
+                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
+                }
+                Instantiate(fakeHit, hit.point, Quaternion.identity);
             }
-            Instantiate(fakeHit, hit.point, Quaternion.identity);
-        }
-        if (animator.GetBool("ADS") == true)
-        {
-            GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100));
+            if (animator.GetBool("ADS") == true)
+            {
+                GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100), RecoilType.Procedural);
+            }
+            else
+            {
+                GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
+            }
         }
         else
         {
-            GetComponentInParent<RecoilScript>().Recoil(recoilValue);
+            if (Physics.Raycast(firePoint.position, firePoint.forward + sprayPattern[shotIndex].fixedSpray, out RaycastHit hit, 500f))
+            {
+                if (hit.collider.GetComponent<HitBox>())
+                {
+                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
+                }
+                Instantiate(fakeHit, hit.point, Quaternion.identity);
+            }
+            if (animator.GetBool("ADS") == true)
+            {
+                GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil * ((100 - adsRecoilReduction) / 100), RecoilType.Fixed);
+            }
+            else
+            {
+                GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil, RecoilType.Fixed);
+            }
         }
+        shotIndex++;
+        delayToReset = 1;
     }
 
     IEnumerator Reloading()
     {
         canFire = false;
         isReloading = true;
+        delayToReset = 0;
         if (faToggle)
         {
             faToggle = false;
@@ -172,6 +201,17 @@ public class AssaultRifleGun : GunBase
         {
             faToggle = true;
             StartCoroutine(FullAutoShot());
+        }
+    }
+    private void FixedUpdate()
+    {
+        if (delayToReset > 0)
+        {
+            delayToReset -= Time.fixedDeltaTime;
+        }
+        else if (shotIndex > 0)
+        {
+            shotIndex--;
         }
     }
 }

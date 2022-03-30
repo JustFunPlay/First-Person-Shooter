@@ -14,12 +14,15 @@ public class HeavyMachineGun : GunBase
     public float maxASBonus;
     public int shotsToMaxBonus;
     public float coolDownTime;
+    
+    public float currentAS;
+    public int shotsFired;
 
     public Vector3 recoilValue;
     public float accuracy;
     bool isReloading;
     public float adsRecoilReduction;
-    public Animator animator;
+    //public Animator animator;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
         if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0)
@@ -52,13 +55,14 @@ public class HeavyMachineGun : GunBase
             ShootBullet();
             player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
             player.UpdateAmmo(ammoType);
-            yield return new WaitForSeconds(1f / attackSpeed);
+            yield return new WaitForSeconds(1f / currentAS);
         }
         canFire = true;
         if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0 && !isReloading)
         {
             StartCoroutine(Reloading());
         }
+        StartCoroutine(CoolingDown());
     }
     public override void Reload()
     {
@@ -69,7 +73,7 @@ public class HeavyMachineGun : GunBase
     }
     public void ShootBullet()
     {
-        animator.SetTrigger("Shoot");
+        //animator.SetTrigger("Shoot");
         float convertedAccuracy = (100 - accuracy) / 200;
         if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
         {
@@ -79,14 +83,15 @@ public class HeavyMachineGun : GunBase
             }
             Instantiate(fakeHit, hit.point, Quaternion.identity);
         }
-        if (animator.GetBool("ADS") == true)
-        {
-            GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100));
-        }
-        else
-        {
-            GetComponentInParent<RecoilScript>().Recoil(recoilValue);
-        }
+        //if (animator.GetBool("ADS") == true)
+        //{
+        //    GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100), RecoilType.Procedural);
+        //}
+        //else
+        //{
+        GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
+        //}
+        BoostFireRate();
     }
     IEnumerator Reloading()
     {
@@ -96,8 +101,8 @@ public class HeavyMachineGun : GunBase
         {
             faToggle = false;
         }
-        animator.speed = 1f / reloadTime;
-        animator.SetTrigger("Reload");
+        //animator.speed = 1f / reloadTime;
+        //animator.SetTrigger("Reload");
         yield return new WaitForSeconds(reloadTime);
         for (int i = player.inventory.weaponInventory[player.currentWeapon].currentAmmo; i < maxAmmo; i++)
         {
@@ -125,11 +130,36 @@ public class HeavyMachineGun : GunBase
         player.UpdateAmmo(ammoType);
         isReloading = false;
         canFire = true;
-        animator.speed = 1;
+        //animator.speed = 1;
         if (keepFiring)
         {
             faToggle = true;
             StartCoroutine(Dakka());
         }
+        
+    }
+    void BoostFireRate()
+    {
+        CheckFireRate();
+        if (shotsFired < shotsToMaxBonus)
+        {
+            shotsFired++;
+        }
+    }
+    IEnumerator CoolingDown()
+    {
+        while ((!faToggle || isReloading) && shotsFired>0)
+        {
+            yield return new WaitForSeconds(coolDownTime/shotsToMaxBonus);
+            if (shotsFired > 0)
+            {
+                shotsFired--;
+            }
+            CheckFireRate();
+        }
+    }
+    void CheckFireRate()
+    {
+        currentAS = attackSpeed * (1f + (maxASBonus / shotsToMaxBonus) * shotsFired);
     }
 }

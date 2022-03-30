@@ -136,11 +136,11 @@ public class ShotGun : GunBase
         player.UpdateAmmo(ammoType);
         if (animator.GetBool("ADS") == true)
         {
-            GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction)/100));
+            GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction)/100), RecoilType.Procedural);
         }
         else
         {
-            GetComponentInParent<RecoilScript>().Recoil(recoilValue);
+            GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
         }
     }
     IEnumerator Reloading()

@@ -15,8 +15,21 @@ public class RecoilScript : MonoBehaviour
         currentRotation = Vector3.Slerp(currentRotation, targetRotation, snapines * Time.fixedDeltaTime);
         transform.localRotation = Quaternion.Euler(currentRotation);
     }
-    public void Recoil(Vector3 recoil)
+    public void Recoil(Vector3 recoil, RecoilType recoilType)
     {
-        targetRotation += new Vector3(-recoil.x, Random.Range(-recoil.y, recoil.y), Random.Range(-recoil.z, recoil.z));
+        if (recoilType == RecoilType.Procedural)
+        {
+            targetRotation += new Vector3(-recoil.x, Random.Range(-recoil.y, recoil.y), Random.Range(-recoil.z, recoil.z));
+        }
+        else
+        {
+            targetRotation += new Vector3(-recoil.x, recoil.y, recoil.z);
+        }
     }
+}
+[System.Serializable]
+public enum RecoilType
+{
+    Fixed,
+    Procedural
 }
