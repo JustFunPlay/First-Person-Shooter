@@ -19,11 +19,11 @@ MonoBehaviour:
     currentAmmo: 24
   - weapon: {fileID: 7300745704912413461, guid: 21f5552b51dbabc43829c7a147637e96, type: 3}
     currentAmmo: 12
-  - weapon: {fileID: 3125177558377234286, guid: 3c722ee78dac36949be091944b1ea2d6, type: 3}
+  - weapon: {fileID: 3125177558377234286, guid: 78380db4e00acea4889e15d786a16316, type: 3}
     currentAmmo: 1
   - weapon: {fileID: 5167365599878734648, guid: 1fb669f0adc556248a3dd1fbd049f92f, type: 3}
     currentAmmo: 0
   lightAmmo: 999
-  mediumAmmo: 890
+  mediumAmmo: 999
   heavyAmmo: 999
   shotgunAmmo: 999
