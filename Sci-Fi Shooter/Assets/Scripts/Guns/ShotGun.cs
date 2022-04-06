@@ -5,8 +5,8 @@ using UnityEngine.InputSystem;
 
 public class ShotGun : GunBase
 {
-    [Range(1, 50)]
-    public int pellets;
+    public Vector3[] fixedPellets;
+    public int extraPellets;
     public float attackSpeed;
     public float reloadTime;
     public Transform bulletPoint;
@@ -22,7 +22,6 @@ public class ShotGun : GunBase
     public bool canChoke;
     bool choking;
     public int chokeDamageBoost;
-    [Range(1, 50)]
     public int chokePelletReduction;
     public float chockeAccuracyBoost;
     [Range(0, 100)]
@@ -71,14 +70,14 @@ public class ShotGun : GunBase
             if (choking)
             {
                 damage -= chokeDamageBoost;
-                pellets += chokePelletReduction;
+                extraPellets += chokePelletReduction;
                 accuracy -= chockeAccuracyBoost;
                 choking = false;
             }
             else
             {
                 damage += chokeDamageBoost;
-                pellets -= chokePelletReduction;
+                extraPellets -= chokePelletReduction;
                 accuracy += chockeAccuracyBoost;
                 choking = true;
             }
@@ -119,11 +118,22 @@ public class ShotGun : GunBase
     }
     public void ShootBullet()
     {
-        float convertedAccuracy = (100 - accuracy) / 75;
+        float convertedAccuracy = (100 - accuracy) / 200;
         animator.SetTrigger("Shoot");
-        for (int i = 0; i < pellets; i++)
+        for (int i = 0; i < fixedPellets.Length + extraPellets; i++)
         {
-            if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
+            if (i < fixedPellets.Length)
+            {
+                if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + bulletPoint.TransformDirection(fixedPellets[i]), out RaycastHit hit, 500f))
+                {
+                    if (hit.collider.GetComponent<HitBox>())
+                    {
+                        hit.collider.GetComponent<HitBox>().HitDamage(damage);
+                    }
+                    Instantiate(fakeHit, hit.point, Quaternion.identity);
+                }
+            }
+            else if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
             {
                 if (hit.collider.GetComponent<HitBox>())
                 {

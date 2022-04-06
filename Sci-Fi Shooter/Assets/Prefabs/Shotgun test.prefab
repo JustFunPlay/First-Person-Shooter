@@ -626,18 +626,26 @@ MonoBehaviour:
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
-  pellets: 24
+  fixedPellets:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0.08, y: 0.09, z: 0.08}
+  - {x: -0.08, y: 0.09, z: -0.08}
+  - {x: -0.08, y: -0.09, z: 0.08}
+  - {x: 0.08, y: -0.09, z: -0.08}
+  - {x: 0.1, y: 0, z: 0}
+  - {x: -0.1, y: 0, z: 0}
+  extraPellets: 0
   attackSpeed: 4
   reloadTime: 0.8
   bulletPoint: {fileID: 2414927980378979088}
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
-  recoilValue: {x: 15, y: 15, z: 3}
-  accuracy: 66.3
+  recoilValue: {x: 10, y: 10, z: 3}
+  accuracy: 63.2
   fireMode: 0
   canChoke: 1
   chokeDamageBoost: 2
-  chokePelletReduction: 14
-  chockeAccuracyBoost: 26.2
+  chokePelletReduction: 2
+  chockeAccuracyBoost: 14.3
   adsRecoilReduction: 50
   animator: {fileID: 1738311151427757675}
 --- !u!95 &1738311151427757675

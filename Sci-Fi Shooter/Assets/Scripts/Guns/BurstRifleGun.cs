@@ -88,7 +88,7 @@ public class BurstRifleGun : GunBase
         }
         else
         {
-            if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + sprayPattern[shotIndex].fixedSpray, out RaycastHit hit, 500f))
+            if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + bulletPoint.TransformDirection(sprayPattern[shotIndex].fixedSpray), out RaycastHit hit, 500f))
             {
                 if (hit.collider.GetComponent<HitBox>())
                 {

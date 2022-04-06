@@ -9,7 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7022405053384958069}
-  - component: {fileID: 6226668490096748012}
+  - component: {fileID: -754003584876230673}
+  - component: {fileID: 2041464689762202837}
   m_Layer: 0
   m_Name: TestAR
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6226668490096748012
+--- !u!114 &-754003584876230673
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,28 +44,56 @@ MonoBehaviour:
   m_GameObject: {fileID: 4692424767122981717}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 05e398e41055c5148b798b7322cf5389, type: 3}
+  m_Script: {fileID: 11500000, guid: 1d9e0431650652e428cd99da4acd31dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoType: 1
-  damage: 5
-  maxAmmo: 50
-  equipTime: 1.2
+  ammoType: 0
+  damage: 0
+  maxAmmo: 5
+  equipTime: 0
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
   attackSpeed: 5
-  reloadTime: 2.7
+  reloadTime: 0.2
+  firemode: 1
+  toggleFireMode: 0
   firePoint: {fileID: 4657561602942861393}
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
-  maxASBonus: 1.5
-  shotsToMaxBonus: 10
-  coolDownTime: 4
-  currentAS: 0
-  shotsFired: 0
-  recoilValue: {x: 2, y: 2, z: 0.1}
-  accuracy: 98
-  adsRecoilReduction: 40
+  sprayPattern:
+  - fixedSpray: {x: 0, y: 0, z: 0}
+    fixedRecoil: {x: 0, y: 0, z: 0}
+  - fixedSpray: {x: 1, y: 0, z: 0}
+    fixedRecoil: {x: 0, y: 0, z: 0}
+  - fixedSpray: {x: 0, y: 1, z: 0}
+    fixedRecoil: {x: 0, y: 0, z: 0}
+  - fixedSpray: {x: 0, y: 0, z: 0}
+    fixedRecoil: {x: 0, y: 0, z: 0}
+  - fixedSpray: {x: 1, y: 1, z: 0}
+    fixedRecoil: {x: 0, y: 0, z: 0}
+  recoilValue: {x: 0, y: 0, z: 0}
+  accuracy: 0
+  adsRecoilReduction: 0
+  animator: {fileID: 2041464689762202837}
+--- !u!95 &2041464689762202837
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4692424767122981717}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5346948708008082747
 GameObject:
   m_ObjectHideFlags: 0

@@ -100,7 +100,7 @@ public class HeavyMachineGun : GunBase
         }
         else
         {
-            if (Physics.Raycast(firePoint.position, firePoint.forward + sprayPattern[shotIndex].fixedSpray, out RaycastHit hit, 500f))
+            if (Physics.Raycast(firePoint.position, firePoint.forward + firePoint.TransformDirection(sprayPattern[shotIndex].fixedSpray), out RaycastHit hit, 500f))
             {
                 if (hit.collider.GetComponent<HitBox>())
                 {
