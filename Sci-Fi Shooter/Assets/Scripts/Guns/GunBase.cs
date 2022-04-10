@@ -48,7 +48,8 @@ public enum AmmoType
     Medium,
     Heavy,
     Shotgun,
-    Grenade
+    Grenade,
+    RailGun
 }
 [System.Serializable]
 public class FixedSprayPattern

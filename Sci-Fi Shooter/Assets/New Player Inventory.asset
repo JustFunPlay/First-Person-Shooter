@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: New Player Inventory
   m_EditorClassIdentifier: 
   weaponInventory:
-  - weapon: {fileID: 4435284080878689310, guid: 8afd1c339ffa28b4baa868553d84d8b0, type: 3}
-    currentAmmo: 50
+  - weapon: {fileID: 5919653525157232271, guid: 8c1fdc04dc8e9304aba2f2396136c03d, type: 3}
+    currentAmmo: 4
   - weapon: {fileID: 5373506035396100404, guid: 27999e68b8f1ee8409d5dd6a4a63a4ec, type: 3}
     currentAmmo: 10
   - weapon: {fileID: 7300745704912413461, guid: 21f5552b51dbabc43829c7a147637e96, type: 3}
@@ -23,7 +23,7 @@ MonoBehaviour:
     currentAmmo: 1
   - weapon: {fileID: 5167365599878734648, guid: 1fb669f0adc556248a3dd1fbd049f92f, type: 3}
     currentAmmo: 1
-  lightAmmo: 925
-  mediumAmmo: 597
-  heavyAmmo: 901
-  shotgunAmmo: 521
+  lightAmmo: 999
+  mediumAmmo: 999
+  heavyAmmo: 999
+  shotgunAmmo: 999
