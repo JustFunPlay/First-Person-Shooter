@@ -634,7 +634,7 @@ MonoBehaviour:
   - {x: 0.08, y: -0.09, z: -0.08}
   - {x: 0.1, y: 0, z: 0}
   - {x: -0.1, y: 0, z: 0}
-  extraPellets: 0
+  extraPellets: 17
   attackSpeed: 4
   reloadTime: 0.8
   bulletPoint: {fileID: 2414927980378979088}
@@ -644,7 +644,7 @@ MonoBehaviour:
   fireMode: 0
   canChoke: 1
   chokeDamageBoost: 2
-  chokePelletReduction: 2
+  chokePelletReduction: 14
   chockeAccuracyBoost: 14.3
   adsRecoilReduction: 50
   animator: {fileID: 1738311151427757675}

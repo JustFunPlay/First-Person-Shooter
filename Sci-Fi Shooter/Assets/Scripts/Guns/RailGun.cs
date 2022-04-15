@@ -50,7 +50,7 @@ public class RailGun : GunBase
     IEnumerator Boom()
     {
         canFire = false;
-        Collider[] colliders = Physics.OverlapCapsule(bulletPoint.position, bulletPoint.position + bulletPoint.forward * 500, 0.02f);
+        Collider[] colliders = Physics.OverlapCapsule(bulletPoint.position, bulletPoint.position + bulletPoint.forward * 500, 0.05f);
         foreach (Collider collider in colliders)
         {
             if (collider.GetComponent<HitBox>())
