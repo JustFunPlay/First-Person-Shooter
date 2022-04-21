@@ -9,9 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4804030625253844344}
-  - component: {fileID: 1848978067846297399}
+  - component: {fileID: 7721882376203676883}
+  - component: {fileID: 8675592451678632823}
   m_Layer: 0
-  m_Name: Displacement Grenade
+  m_Name: Live reveal grenade
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,11 +30,26 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3472887397851460602}
-  - {fileID: 6580599245996889130}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1848978067846297399
+--- !u!54 &7721882376203676883
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3125177558377234286}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 1
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 2
+  m_Constraints: 0
+  m_CollisionDetection: 3
+--- !u!114 &8675592451678632823
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,48 +58,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 3125177558377234286}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4cf6cbb2ffd114c9025d9de9d145e1, type: 3}
+  m_Script: {fileID: 11500000, guid: 3eeeb537c52025a48a61b9ed52cf0adc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoType: 4
-  damage: 0
-  maxAmmo: 0
-  equipTime: 0.3
-  unEquipTime: 0
-  canFire: 0
-  player: {fileID: 0}
-  liveGrenade: {fileID: 3125177558377234286, guid: 8b083e6be00acfe4d8a814db5b882275, type: 3}
-  throwPoint: {fileID: 6580599245996889130}
---- !u!1 &7026460621109411317
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6580599245996889130}
-  m_Layer: 0
-  m_Name: GameObject
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6580599245996889130
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7026460621109411317}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0.3}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4804030625253844344}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  boom: {fileID: 206653056997389002, guid: 43ad252577f3cc540a63b02db1bc0cd8, type: 3}
 --- !u!1 &7898501568673334330
 GameObject:
   m_ObjectHideFlags: 0
@@ -95,6 +73,7 @@ GameObject:
   - component: {fileID: 3472887397851460602}
   - component: {fileID: 2895599780167270275}
   - component: {fileID: 3884167819468153192}
+  - component: {fileID: 2773260042634807227}
   m_Layer: 0
   m_Name: Capsule (1)
   m_TagString: Untagged
@@ -109,13 +88,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7898501568673334330}
-  m_LocalRotation: {x: 0, y: 0, z: -0.60876137, w: 0.7933534}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children: []
   m_Father: {fileID: 4804030625253844344}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -75}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!33 &2895599780167270275
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -143,7 +122,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a04340e5acc4c5f4f8f6903e5f9cb9c0, type: 2}
+  - {fileID: 2100000, guid: f1be469a4ef42a34aa3347bbfc111ea7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -165,3 +144,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &2773260042634807227
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7898501568673334330}
+  m_Material: {fileID: 13400000, guid: 91dfd04398d674646b3287858809025f, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}

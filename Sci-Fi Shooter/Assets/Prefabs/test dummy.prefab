@@ -3126,6 +3126,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentHP: 100
   maxHP: 100
+  meshes:
+  - {fileID: 2436747113233209615}
+  - {fileID: 1698058207196200710}
   totalDamageText: {fileID: 751086172984996279}
   lastHitDamageText: {fileID: 50160382002884465}
 --- !u!1 &8713418201174557671
