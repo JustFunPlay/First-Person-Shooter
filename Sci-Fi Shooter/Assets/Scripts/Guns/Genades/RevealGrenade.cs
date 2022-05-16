@@ -16,7 +16,18 @@ public class RevealGrenade : GunBase
             canFire = false;
             GameObject nade = Instantiate(liveGrenade, throwpoint.position, throwpoint.rotation);
             nade.GetComponent<LiveRevealGreneda>().YeetGrenade(damage, blastDelay, blastRadius);
-            player.EquipNext(player.previousWeapon);
+            if (player.previousWeapon == WeaponSlot.Primary)
+            {
+                player.EquipPrimary();
+            }
+            else if (player.previousWeapon == WeaponSlot.Secondary)
+            {
+                player.EquipSecondary();
+            }
+            else
+            {
+                player.EquipMelee();
+            }
         }
     }
 }

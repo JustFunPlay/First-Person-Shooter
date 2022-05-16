@@ -14,7 +14,14 @@ public class RailGun : GunBase
     public Animator animator;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
-        if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0)
+        if (player.inventory.primaryAmmo == 0 && weaponSlot == WeaponSlot.Primary)
+        {
+            if (!isReloading)
+            {
+                StartCoroutine(Reloading());
+            }
+        }
+        else if (player.inventory.secondaryAmmo == 0 && weaponSlot == WeaponSlot.Secondary)
         {
             if (!isReloading)
             {
@@ -29,7 +36,11 @@ public class RailGun : GunBase
 
     public override void Reload()
     {
-        if (!isReloading && player.inventory.weaponInventory[player.currentWeapon].currentAmmo < maxAmmo)
+        if (!isReloading && player.inventory.primaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Primary)
+        {
+            StartCoroutine(Reloading());
+        }
+        else if (!isReloading && player.inventory.secondaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Secondary)
         {
             StartCoroutine(Reloading());
         }
@@ -39,11 +50,23 @@ public class RailGun : GunBase
         canFire = false;
         isReloading = true;
         yield return new WaitForSeconds(reloadTime);
-        for (int i = player.inventory.weaponInventory[player.currentWeapon].currentAmmo; i < maxAmmo; i++)
+        if (weaponSlot == WeaponSlot.Primary)
         {
-
+            for (int i = player.inventory.primaryAmmo; i < maxAmmo; i++)
+            {
+                player.inventory.railAmmo--;
+                player.inventory.primaryAmmo++;
+            }
         }
-        player.UpdateAmmo(ammoType);
+        else if (weaponSlot == WeaponSlot.Secondary)
+        {
+            for (int i = player.inventory.secondaryAmmo; i < maxAmmo; i++)
+            {
+                player.inventory.railAmmo--;
+                player.inventory.secondaryAmmo++;
+            }
+        }
+        player.UpdateAmmo(ammoType, weaponSlot);
         isReloading = false;
         canFire = true;
     }
@@ -59,12 +82,23 @@ public class RailGun : GunBase
             }
         }
         Instantiate(projectileTrail, bulletPoint.position, bulletPoint.rotation);
-        player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
-        player.UpdateAmmo(ammoType);
+        if (weaponSlot == WeaponSlot.Primary)
+        {
+            player.inventory.primaryAmmo--;
+        }
+        else if (weaponSlot == WeaponSlot.Secondary)
+        {
+            player.inventory.secondaryAmmo--;
+        }
+        player.UpdateAmmo(ammoType, weaponSlot);
         GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
         yield return new WaitForSeconds(attackDelay);
         canFire = true;
-        if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0 && !isReloading)
+        if (player.inventory.primaryAmmo == 0 && !isReloading && weaponSlot == WeaponSlot.Primary)
+        {
+            StartCoroutine(Reloading());
+        }
+        if (player.inventory.secondaryAmmo == 0 && !isReloading && weaponSlot == WeaponSlot.Secondary)
         {
             StartCoroutine(Reloading());
         }

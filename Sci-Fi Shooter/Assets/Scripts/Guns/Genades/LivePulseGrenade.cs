@@ -23,15 +23,31 @@ public class LivePulseGrenade : MonoBehaviour
     IEnumerator DelayExplosion()
     {
         yield return new WaitForSeconds(blastDelay);
+        List<CharacterHealth> characters = new List<CharacterHealth>();
         Collider[] colliders = Physics.OverlapSphere(transform.position, blastRadius);
         foreach (Collider collider in colliders)
         {
             if (collider.GetComponentInParent<CharacterHealth>())
             {
-                float dst = Vector3.Distance(collider.GetComponentInParent<CharacterHealth>().transform.position, transform.position);
-                float damageToDo = damage * (1 - (dst / (blastRadius * 2)));
-                collider.GetComponentInParent<CharacterHealth>().OnTakeDamage((int)damageToDo);
+                bool b = false;
+                for (int i = 0; i < characters.Count; i++)
+                {
+                    if (characters[i] = collider.GetComponentInParent<CharacterHealth>())
+                    {
+                        b = true;
+                    }
+                }
+                if (b == false)
+                {
+                    characters.Add(collider.GetComponentInParent<CharacterHealth>());
+                }
             }
+        }
+        for (int i = 0; i < characters.Count; i++)
+        {
+            float dst = Vector3.Distance(characters[i].transform.position, transform.position);
+            float damageToDo = damage * (1 - (dst / (blastRadius * 2)));
+            characters[i].OnTakeDamage((int)damageToDo);
         }
         GameObject bewm = Instantiate(boom, transform.position, transform.rotation);
         bewm.transform.localScale = new Vector3(blastRadius * 2, blastRadius * 2, blastRadius * 2);

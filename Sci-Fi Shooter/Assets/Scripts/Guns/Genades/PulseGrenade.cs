@@ -16,18 +16,22 @@ public class PulseGrenade : GunBase
             canFire = false;
             GameObject nade = Instantiate(liveGrenade, throwpoint.position, throwpoint.rotation);
             nade.GetComponent<LivePulseGrenade>().YeetGrenade(damage, blastDelay, blastRadius);
-            player.EquipNext(player.previousWeapon);
+            player.inventory.grenades--;
+            if (player.previousWeapon == WeaponSlot.Primary)
+            {
+                player.EquipPrimary();
+            }
+            else if (player.previousWeapon == WeaponSlot.Secondary)
+            {
+                player.EquipSecondary();
+            }
+            else
+            {
+                player.EquipMelee();
+            }
         }
     }
     public override void AltFire(InputAction.CallbackContext callbackContext)
-    {
-        
-    }
-    public override void OnEquip(PlayerControll playerControll)
-    {
-        base.OnEquip(playerControll);
-    }
-    public override void OnUnEquip()
     {
         
     }

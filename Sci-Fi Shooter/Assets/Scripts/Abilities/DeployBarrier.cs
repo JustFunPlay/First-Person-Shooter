@@ -15,17 +15,47 @@ public class DeployBarrier : GunBase
     }
     public override IEnumerator Equiping()
     {
+        player.weaponInHand.GetComponent<GunBase>().OnUnEquip();
+        player.weaponInHand = gameObject;
         yield return base.Equiping();
-        if (player.inventory.weaponInventory[4].currentAmmo > 0)
+        player.inventory.abilityAvailibility--;
+        GameObject barrier = Instantiate(newBarrier, transform.position, transform.rotation);
+        barrier.GetComponent<Barrier>().Yeet(duration, cooldown, cooldownPenalty, hp, player);
+        if (player.currentWeapon == WeaponSlot.Primary)
         {
-            player.inventory.weaponInventory[4].currentAmmo = 0;
-            GameObject barrier = Instantiate(newBarrier, transform.position, transform.rotation);
-            barrier.GetComponent<Barrier>().Yeet(duration, cooldown, cooldownPenalty, hp, player);
-            player.EquipNext(player.previousWeapon);
+            player.previousWeapon = player.currentWeapon;
+            player.currentWeapon = WeaponSlot.Ability;
+            player.EquipPrimary();
+        }
+        else if (player.currentWeapon == WeaponSlot.Secondary)
+        {
+            player.previousWeapon = player.currentWeapon;
+            player.currentWeapon = WeaponSlot.Ability;
+            player.EquipSecondary();
+        }
+        else if (player.currentWeapon == WeaponSlot.Melee)
+        {
+            player.previousWeapon = player.currentWeapon;
+            player.currentWeapon = WeaponSlot.Ability;
+            player.EquipMelee();
+        }
+        else if (player.previousWeapon == WeaponSlot.Primary)
+        {
+            player.previousWeapon = player.currentWeapon;
+            player.currentWeapon = WeaponSlot.Ability;
+            player.EquipPrimary();
+        }
+        else if (player.previousWeapon == WeaponSlot.Secondary)
+        {
+            player.previousWeapon = player.currentWeapon;
+            player.currentWeapon = WeaponSlot.Ability;
+            player.EquipSecondary();
         }
         else
         {
-            player.EquipNext(player.previousWeapon);
+            player.previousWeapon = player.currentWeapon;
+            player.currentWeapon = WeaponSlot.Ability;
+            player.EquipMelee();
         }
     }
 }

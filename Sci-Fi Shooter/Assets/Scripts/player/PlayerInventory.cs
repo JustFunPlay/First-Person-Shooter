@@ -5,7 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Player Inventory", menuName = "ScriptableObjects/Player inventory")]
 public class PlayerInventory : ScriptableObject
 {
-    public WeaponInventory[] weaponInventory;
+    public GameObject primaryWeapon;
+    public int primaryAmmo;
+    public GameObject secondaryWeapon;
+    public int secondaryAmmo;
+    public GameObject meleeWeapon;
+    public GameObject grenade;
+    public int grenades;
+    public GameObject ability;
+    public int abilityAvailibility;
 
     //public GameObject currentWeapon;
     
@@ -13,12 +21,5 @@ public class PlayerInventory : ScriptableObject
     public int mediumAmmo;
     public int heavyAmmo;
     public int shotgunAmmo;
-
-}
-
-[System.Serializable]
-public class WeaponInventory
-{
-    public GameObject weapon;
-    public int currentAmmo;
+    public int railAmmo;
 }

@@ -25,7 +25,14 @@ public class AssaultRifleGun : GunBase
     public Animator animator;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
-        if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0)
+        if (player.inventory.primaryAmmo == 0 && weaponSlot == WeaponSlot.Primary)
+        {
+            if (!isReloading)
+            {
+                StartCoroutine(Reloading());
+            }
+        }
+        else if (player.inventory.secondaryAmmo == 0 && weaponSlot == WeaponSlot.Secondary)
         {
             if (!isReloading)
             {
@@ -67,7 +74,11 @@ public class AssaultRifleGun : GunBase
     }
     public override void Reload()
     {
-        if (!isReloading && player.inventory.weaponInventory[player.currentWeapon].currentAmmo < maxAmmo)
+        if (!isReloading && player.inventory.primaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Primary)
+        {
+            StartCoroutine(Reloading());
+        }
+        else if (!isReloading && player.inventory.secondaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Secondary)
         {
             StartCoroutine(Reloading());
         }
@@ -77,21 +88,27 @@ public class AssaultRifleGun : GunBase
         base.OnEquip(playerControll);
         
     }
-    public override void OnUnEquip()
-    {
-        
-    }
-
     public IEnumerator SingleShot()
     {
         canFire = false;
         print("fire");
         ShootBullet();
-        player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
-        player.UpdateAmmo(ammoType);
+        if (weaponSlot == WeaponSlot.Primary)
+        {
+            player.inventory.primaryAmmo--;
+        }
+        else if (weaponSlot == WeaponSlot.Secondary)
+        {
+            player.inventory.secondaryAmmo--;
+        }
+        player.UpdateAmmo(ammoType, weaponSlot);
         yield return new WaitForSeconds(1f / attackSpeed);
         canFire = true;
-        if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0 && !isReloading)
+        if (player.inventory.primaryAmmo == 0 && !isReloading && weaponSlot == WeaponSlot.Primary)
+        {
+            StartCoroutine(Reloading());
+        }
+        else if (player.inventory.secondaryAmmo == 0 && !isReloading && weaponSlot == WeaponSlot.Secondary)
         {
             StartCoroutine(Reloading());
         }
@@ -99,17 +116,35 @@ public class AssaultRifleGun : GunBase
     public IEnumerator FullAutoShot()
     {
         canFire = false;
-        while (faToggle && player.inventory.weaponInventory[player.currentWeapon].currentAmmo > 0)
+        if (weaponSlot == WeaponSlot.Primary)
         {
-            ShootBullet();
-            player.inventory.weaponInventory[player.currentWeapon].currentAmmo--;
-            player.UpdateAmmo(ammoType);
-            yield return new WaitForSeconds(1f / attackSpeed);
+            while (faToggle && player.inventory.primaryAmmo > 0)
+            {
+                ShootBullet();
+                player.inventory.primaryAmmo--;
+                player.UpdateAmmo(ammoType, weaponSlot);
+                yield return new WaitForSeconds(1f / attackSpeed);
+            }
+            canFire = true;
+            if (player.inventory.primaryAmmo == 0 && !isReloading)
+            {
+                StartCoroutine(Reloading());
+            }
         }
-        canFire = true;
-        if (player.inventory.weaponInventory[player.currentWeapon].currentAmmo == 0 && !isReloading)
+        else if (weaponSlot == WeaponSlot.Secondary)
         {
-            StartCoroutine(Reloading());
+            while (faToggle && player.inventory.secondaryAmmo > 0)
+            {
+                ShootBullet();
+                player.inventory.secondaryAmmo--;
+                player.UpdateAmmo(ammoType, weaponSlot);
+                yield return new WaitForSeconds(1f / attackSpeed);
+            }
+            canFire = true;
+            if (player.inventory.secondaryAmmo == 0 && !isReloading)
+            {
+                StartCoroutine(Reloading());
+            }
         }
     }
     public void ShootBullet()
@@ -170,30 +205,49 @@ public class AssaultRifleGun : GunBase
         animator.speed = 1f / reloadTime;
         animator.SetTrigger("Reload");
         yield return new WaitForSeconds(reloadTime);
-        for (int i = player.inventory.weaponInventory[player.currentWeapon].currentAmmo; i < maxAmmo; i++)
+        if (weaponSlot == WeaponSlot.Primary)
         {
-            if (ammoType == AmmoType.Heavy && player.inventory.heavyAmmo > 0)
+            for (int i = player.inventory.primaryAmmo; i < maxAmmo; i++)
             {
-                player.inventory.heavyAmmo--;
-                player.inventory.weaponInventory[player.currentWeapon].currentAmmo++;
-            }
-            else if (ammoType == AmmoType.Light && player.inventory.lightAmmo > 0)
-            {
-                player.inventory.lightAmmo--;
-                player.inventory.weaponInventory[player.currentWeapon].currentAmmo++;
-            }
-            else if (ammoType == AmmoType.Medium && player.inventory.mediumAmmo > 0)
-            {
-                player.inventory.mediumAmmo--;
-                player.inventory.weaponInventory[player.currentWeapon].currentAmmo++;
-            }
-            else if (ammoType == AmmoType.Shotgun && player.inventory.shotgunAmmo > 0)
-            {
-                player.inventory.shotgunAmmo--;
-                player.inventory.weaponInventory[player.currentWeapon].currentAmmo++;
+                if (ammoType == AmmoType.Heavy && player.inventory.heavyAmmo > 0)
+                {
+                    player.inventory.heavyAmmo--;
+                    player.inventory.primaryAmmo++;
+                }
+                else if (ammoType == AmmoType.Light && player.inventory.lightAmmo > 0)
+                {
+                    player.inventory.lightAmmo--;
+                    player.inventory.primaryAmmo++;
+                }
+                else if (ammoType == AmmoType.Medium && player.inventory.mediumAmmo > 0)
+                {
+                    player.inventory.mediumAmmo--;
+                    player.inventory.primaryAmmo++;
+                }
             }
         }
-        player.UpdateAmmo(ammoType);
+        else if (weaponSlot == WeaponSlot.Secondary)
+        {
+            for (int i = player.inventory.secondaryAmmo; i < maxAmmo; i++)
+            {
+                if (ammoType == AmmoType.Heavy && player.inventory.heavyAmmo > 0)
+                {
+                    player.inventory.heavyAmmo--;
+                    player.inventory.secondaryAmmo++;
+                }
+                else if (ammoType == AmmoType.Light && player.inventory.lightAmmo > 0)
+                {
+                    player.inventory.lightAmmo--;
+                    player.inventory.secondaryAmmo++;
+                }
+                else if (ammoType == AmmoType.Medium && player.inventory.mediumAmmo > 0)
+                {
+                    player.inventory.mediumAmmo--;
+                    player.inventory.secondaryAmmo++;
+                }
+            }
+        }
+        player.UpdateAmmo(ammoType, weaponSlot);
         isReloading = false;
         canFire = true;
         animator.speed = 1;

@@ -43,14 +43,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d5341e90d5fc9743a874c3ee4c0fc20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoType: 0
+  weaponSlot: 4
+  ammoType: 6
   damage: 0
   maxAmmo: 0
   equipTime: 0.1
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
-  cooldown: 10
+  cooldown: 5
   distancePerTick: 1.5
   totalTicks: 15
   yeet: {fileID: 7136304985187310128, guid: 23a0b2bd81bf4cd49a518908a326b860, type: 3}

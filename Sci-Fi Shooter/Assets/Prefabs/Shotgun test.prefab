@@ -247,7 +247,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2871139238857827062}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.05, z: 0}
+  m_LocalPosition: {x: 0.4, y: -0.25, z: 0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3476315775855689669}
@@ -619,8 +619,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39b551e0aad5db5449659c7bd0ed4339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponSlot: 1
   ammoType: 3
-  damage: 8
+  damage: 5
   maxAmmo: 2
   equipTime: 0.6
   unEquipTime: 0
@@ -634,7 +635,7 @@ MonoBehaviour:
   - {x: 0.08, y: -0.09, z: -0.08}
   - {x: 0.1, y: 0, z: 0}
   - {x: -0.1, y: 0, z: 0}
-  extraPellets: 17
+  extraPellets: 10
   attackSpeed: 4
   reloadTime: 0.8
   bulletPoint: {fileID: 2414927980378979088}
@@ -644,7 +645,7 @@ MonoBehaviour:
   fireMode: 0
   canChoke: 1
   chokeDamageBoost: 2
-  chokePelletReduction: 14
+  chokePelletReduction: 7
   chockeAccuracyBoost: 14.3
   adsRecoilReduction: 50
   animator: {fileID: 1738311151427757675}

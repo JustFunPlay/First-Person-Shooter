@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class GunBase : MonoBehaviour
 {
+    public WeaponSlot weaponSlot;
     public AmmoType ammoType;
     public int damage;
     public int maxAmmo;
@@ -13,6 +14,10 @@ public class GunBase : MonoBehaviour
     public bool canFire;
     public PlayerControll player;
     public virtual void Fire(InputAction.CallbackContext callbackContext)
+    {
+
+    }
+    public virtual void SecondaryFire(InputAction.CallbackContext callbackContext)
     {
 
     }
@@ -27,12 +32,12 @@ public class GunBase : MonoBehaviour
     public virtual void OnEquip(PlayerControll playerControll)
     {
         player = playerControll;
-        player.UpdateAmmo(ammoType);
+        player.UpdateAmmo(ammoType, weaponSlot);
         StartCoroutine(Equiping());
     }
     public virtual void OnUnEquip()
     {
-
+        Destroy(gameObject);
     }
     public virtual IEnumerator Equiping()
     {
@@ -49,7 +54,17 @@ public enum AmmoType
     Heavy,
     Shotgun,
     Grenade,
-    RailGun
+    RailGun,
+    Other
+}
+[System.Serializable]
+public enum WeaponSlot
+{
+    Primary,
+    Secondary,
+    Melee,
+    Grenade,
+    Ability
 }
 [System.Serializable]
 public class FixedSprayPattern

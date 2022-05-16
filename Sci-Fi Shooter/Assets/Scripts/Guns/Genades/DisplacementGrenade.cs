@@ -14,7 +14,18 @@ public class DisplacementGrenade : GunBase
             canFire = false;
             GameObject nade = Instantiate(liveGrenade, throwPoint.position, throwPoint.rotation);
             nade.GetComponent<LiveDisplacementGrenade>().YeetGrenade();
-            player.EquipNext(player.previousWeapon);
+            if (player.previousWeapon == WeaponSlot.Primary)
+            {
+                player.EquipPrimary();
+            }
+            else if (player.previousWeapon == WeaponSlot.Secondary)
+            {
+                player.EquipSecondary();
+            }
+            else
+            {
+                player.EquipMelee();
+            }
         }
     }
     public override IEnumerator Equiping()
@@ -25,7 +36,18 @@ public class DisplacementGrenade : GunBase
         {
             grenade.TeleportPlayer(player);
             yield return null;
-            player.EquipNext(player.previousWeapon);
+            if (player.previousWeapon == WeaponSlot.Primary)
+            {
+                player.EquipPrimary();
+            }
+            else if (player.previousWeapon == WeaponSlot.Secondary)
+            {
+                player.EquipSecondary();
+            }
+            else
+            {
+                player.EquipMelee();
+            }
         }
     }
 }

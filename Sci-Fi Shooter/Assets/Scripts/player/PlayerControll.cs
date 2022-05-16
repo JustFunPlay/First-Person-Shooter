@@ -21,8 +21,9 @@ public class PlayerControll : CharacterHealth
     public Transform gunpos;
     public bool syncGunAim;
 
-    public int currentWeapon;
-    public int previousWeapon;
+    public GameObject weaponInHand;
+    public WeaponSlot currentWeapon;
+    public WeaponSlot previousWeapon;
 
     public Text hpText;
     public Text currentAmmoText;
@@ -32,8 +33,8 @@ public class PlayerControll : CharacterHealth
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Instantiate(inventory.weaponInventory[0].weapon, gunpos.position, gunpos.rotation, gunpos);
-        GetComponentInChildren<GunBase>().OnEquip(this);
+        weaponInHand = Instantiate(inventory.primaryWeapon, cam.position, cam.rotation, cam);
+        weaponInHand.GetComponent<GunBase>().OnEquip(this);
     }
 
     public void OnMove(InputAction.CallbackContext callbackContext)
@@ -51,7 +52,7 @@ public class PlayerControll : CharacterHealth
     public void OnFire(InputAction.CallbackContext callbackContext)
     {
         print("pressed Fire");
-        GetComponentInChildren<GunBase>().Fire(callbackContext);
+        weaponInHand.GetComponent<GunBase>().Fire(callbackContext);
         if (callbackContext.started)
         {
             print("should Fire");
@@ -65,24 +66,13 @@ public class PlayerControll : CharacterHealth
             print("fire performmed");
         }
     }
-    public void AimDownSights(InputAction.CallbackContext callbackContext)
+    public void SecondaryFire(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.started)
-        {
-            GetComponentInChildren<Animator>().SetBool("ADS", true);
-            syncGunAim = false;
-            crossHair.SetActive(false);
-        }
-        else if (callbackContext.canceled)
-        {
-            GetComponentInChildren<Animator>().SetBool("ADS", false);
-            syncGunAim = true;
-            crossHair.SetActive(true);
-        }
+        weaponInHand.GetComponent<GunBase>().SecondaryFire(callbackContext);
     }
     public void OnAltFire(InputAction.CallbackContext callbackContext)
     {
-        GetComponentInChildren<GunBase>().AltFire(callbackContext);
+        weaponInHand.GetComponent<GunBase>().AltFire(callbackContext);
     }
     public void Lean(InputAction.CallbackContext callbackContext)
     {
@@ -90,46 +80,94 @@ public class PlayerControll : CharacterHealth
         leanPoint.localRotation = Quaternion.Euler(leanAngle);
         print(callbackContext.ReadValue<float>());
     }
-    public void EquipNext(int weaponIndex)
+    public void EquipPrimary()
     {
-        if (weaponIndex != currentWeapon)
+        if (currentWeapon != WeaponSlot.Primary)
         {
+            weaponInHand.GetComponent<GunBase>().OnUnEquip();
+            weaponInHand = Instantiate(inventory.primaryWeapon, cam.position, cam.rotation, cam);
             previousWeapon = currentWeapon;
-            currentWeapon = weaponIndex;
-            GetComponentInChildren<GunBase>().OnUnEquip();
-            Destroy(GetComponentInChildren<GunBase>().gameObject);
-            GameObject newGun = Instantiate(inventory.weaponInventory[weaponIndex].weapon, gunpos.position, gunpos.rotation, gunpos);
-            newGun.GetComponent<GunBase>().OnEquip(this);
+            currentWeapon = WeaponSlot.Primary;
+            weaponInHand.GetComponent<GunBase>().OnEquip(this);
         }
-        //StartCoroutine(EquipingNext(weaponIndex));
+    }
+    public void EquipSecondary()
+    {
+        if (currentWeapon != WeaponSlot.Secondary)
+        {
+            weaponInHand.GetComponent<GunBase>().OnUnEquip();
+            weaponInHand = Instantiate(inventory.secondaryWeapon, cam.position, cam.rotation, cam);
+            previousWeapon = currentWeapon;
+            currentWeapon = WeaponSlot.Secondary;
+            weaponInHand.GetComponent<GunBase>().OnEquip(this);
+        }
+    }
+    public void EquipMelee()
+    {
+        if (currentWeapon != WeaponSlot.Melee)
+        {
+            weaponInHand.GetComponent<GunBase>().OnUnEquip();
+            weaponInHand = Instantiate(inventory.meleeWeapon, cam.position, cam.rotation, cam);
+            previousWeapon = currentWeapon;
+            currentWeapon = WeaponSlot.Melee;
+            weaponInHand.GetComponent<GunBase>().OnEquip(this);
+        }
+    }
+    public void EquipGrenade()
+    {
+        if (currentWeapon != WeaponSlot.Grenade && inventory.grenades > 0)
+        {
+            weaponInHand.GetComponent<GunBase>().OnUnEquip();
+            weaponInHand = Instantiate(inventory.grenade, cam.position, cam.rotation, cam);
+            previousWeapon = currentWeapon;
+            currentWeapon = WeaponSlot.Grenade;
+            weaponInHand.GetComponent<GunBase>().OnEquip(this);
+        }
+    }
+    public void EquipAbility()
+    {
+        if (currentWeapon != WeaponSlot.Ability && inventory.abilityAvailibility > 0)
+        {
+            GameObject ability = Instantiate(inventory.ability, cam.position, cam.rotation, cam);
+            ability.GetComponent<GunBase>().OnEquip(this);
+        }
     }
     public void Reload()
     {
-        GetComponentInChildren<GunBase>().Reload();
+        weaponInHand.GetComponent<GunBase>().Reload();
     }
-    IEnumerator EquipingNext(int weaponIndex)
-    {
-        
-        yield return new WaitForSeconds(GetComponentInChildren<GunBase>().unEquipTime);
-        
-    }
-
     // Update is called once per frame
     void FixedUpdate()
     {
         rb.MovePosition(transform.position + transform.forward * moveVector.y * moveSpeed * Time.fixedDeltaTime + transform.right * moveVector.x * moveSpeed * Time.fixedDeltaTime);
-        if (syncGunAim && Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, 500f))
+        //if (syncGunAim && Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, 500f))
+        //{
+        //    gunpos.LookAt(hit.point, cam.up);
+        //}
+        //else
+        //{
+        //    gunpos.localRotation = new Quaternion();
+        //}
+    }
+    public void UpdateAmmo(AmmoType ammo, WeaponSlot slot)
+    {
+        if (slot == WeaponSlot.Primary)
         {
-            gunpos.LookAt(hit.point, cam.up);
+            currentAmmoText.text = inventory.primaryAmmo.ToString();
+        }
+        else if (slot == WeaponSlot.Secondary)
+        {
+            currentAmmoText.text = inventory.secondaryAmmo.ToString();
+        }
+        else if (slot == WeaponSlot.Grenade)
+        {
+            currentAmmoText.text = inventory.grenades.ToString();
         }
         else
         {
-            gunpos.localRotation = new Quaternion();
+            currentAmmoText.text = null;
         }
-    }
-    public void UpdateAmmo(AmmoType ammo)
-    {
-        currentAmmoText.text = inventory.weaponInventory[currentWeapon].currentAmmo.ToString();
+
         if (ammo == AmmoType.Heavy)
         {
             maxAmmoText.text = inventory.heavyAmmo.ToString();
@@ -145,6 +183,10 @@ public class PlayerControll : CharacterHealth
         else if (ammo == AmmoType.Shotgun)
         {
             maxAmmoText.text = inventory.shotgunAmmo.ToString();
+        }
+        else if (ammo == AmmoType.RailGun)
+        {
+            maxAmmoText.text = inventory.railAmmo.ToString();
         }
         else
         {

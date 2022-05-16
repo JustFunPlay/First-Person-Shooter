@@ -6,14 +6,22 @@ public class Dashing : MonoBehaviour
 {
     GameObject player;
     int ticks;
-    float cooldown;
+    public float cooldown;
     float distancePerTick;
     Vector3 dashDir;
     
     public void Dash(int ticks_, float cooldown_, float distancePerTick_, GameObject player_)
     {
+        Dashing[] dashings = FindObjectsOfType<Dashing>();
+        foreach (Dashing dash in dashings)
+        {
+            if (dash.cooldown > this.cooldown)
+            {
+                cooldown = dash.cooldown;
+            }
+        }
         ticks = ticks_;
-        cooldown = cooldown_;
+        cooldown += cooldown_;
         distancePerTick = distancePerTick_;
         player = player_;
         dashDir = player.GetComponent<PlayerControll>().camRot.forward;
@@ -39,6 +47,7 @@ public class Dashing : MonoBehaviour
             yield return null;
             cooldown -= Time.deltaTime;
         }
-        player.GetComponent<PlayerControll>().inventory.weaponInventory[4].currentAmmo = 1;
+        player.GetComponent<PlayerControll>().inventory.abilityAvailibility++;
+        Destroy(gameObject);
     }
 }
