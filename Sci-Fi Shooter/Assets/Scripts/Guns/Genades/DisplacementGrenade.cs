@@ -14,6 +14,7 @@ public class DisplacementGrenade : GunBase
             canFire = false;
             GameObject nade = Instantiate(liveGrenade, throwPoint.position, throwPoint.rotation);
             nade.GetComponent<LiveDisplacementGrenade>().YeetGrenade();
+            player.inventory.grenades--;
             if (player.previousWeapon == WeaponSlot.Primary)
             {
                 player.EquipPrimary();

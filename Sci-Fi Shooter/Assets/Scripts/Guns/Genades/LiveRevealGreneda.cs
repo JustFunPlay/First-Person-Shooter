@@ -14,7 +14,7 @@ public class LiveRevealGreneda : MonoBehaviour
         duration = duration_;
         radius = radius_;
         delay = delay_;
-        GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, 25), ForceMode.Impulse);
+        GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 0, 35), ForceMode.Impulse);
     }
     private void OnCollisionEnter(Collision collision)
     {
@@ -28,6 +28,7 @@ public class LiveRevealGreneda : MonoBehaviour
         {
             if (collider.GetComponentInParent<CharacterHealth>())
             {
+                StopCoroutine(collider.GetComponentInParent<CharacterHealth>().Revealing(duration));
                 collider.GetComponentInParent<CharacterHealth>().RevealThroughWalls(duration);
             }
         }

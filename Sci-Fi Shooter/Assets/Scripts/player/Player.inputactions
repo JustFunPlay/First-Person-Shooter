@@ -116,6 +116,17 @@
                 },
                 {
                     "name": "",
+                    "id": "a9d3becb-8a5b-40cb-823b-c6d90e8c3f7b",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Fire",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "594f79c6-cf90-47a5-8325-1349dfd65e2d",
                     "path": "<Keyboard>/f",
                     "interactions": "",

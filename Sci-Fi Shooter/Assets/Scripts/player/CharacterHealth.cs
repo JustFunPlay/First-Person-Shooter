@@ -27,7 +27,7 @@ public class CharacterHealth : MonoBehaviour
     {
         StartCoroutine(Revealing(duration));
     }
-    IEnumerator Revealing(float duration)
+    public IEnumerator Revealing(float duration)
     {
         for (int i = 0; i < meshes.Length; i++)
         {
