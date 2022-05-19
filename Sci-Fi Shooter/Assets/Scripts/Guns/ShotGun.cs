@@ -141,11 +141,11 @@ public class ShotGun : GunBase
             yield return new WaitForSeconds(1f / attackSpeed);
         }
         canFire = true;
-        if (!isReloading && player.inventory.primaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Primary)
+        if (!isReloading && player.inventory.primaryAmmo == 0 && weaponSlot == WeaponSlot.Primary)
         {
             StartCoroutine(Reloading());
         }
-        else if (!isReloading && player.inventory.secondaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Secondary)
+        else if (!isReloading && player.inventory.secondaryAmmo == 0 && weaponSlot == WeaponSlot.Secondary)
         {
             StartCoroutine(Reloading());
         }

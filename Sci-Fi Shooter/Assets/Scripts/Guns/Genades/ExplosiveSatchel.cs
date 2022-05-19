@@ -30,7 +30,7 @@ public class ExplosiveSatchel : CharacterHealth
                 bool b = false;
                 for (int i = 0; i < characters.Count; i++)
                 {
-                    if (characters[i] = collider.GetComponentInParent<CharacterHealth>())
+                    if (characters[i].gameObject.GetInstanceID() == collider.GetComponentInParent<CharacterHealth>().gameObject.GetInstanceID())
                     {
                         b = true;
                     }

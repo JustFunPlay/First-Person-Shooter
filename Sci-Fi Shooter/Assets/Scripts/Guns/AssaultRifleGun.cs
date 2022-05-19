@@ -268,6 +268,17 @@ public class AssaultRifleGun : GunBase
             shotIndex--;
         }
     }
+    public override void SecondaryFire(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            animator.SetBool("ADS", true);
+        }
+        else if (callbackContext.canceled)
+        {
+            animator.SetBool("ADS", false);
+        }
+    }
 }
 [System.Serializable]
 public enum ArFiremode

@@ -1144,7 +1144,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1663355038}
-  - {fileID: 1267839694}
   m_Father: {fileID: 861649750}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1291,11 +1290,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1267839694 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-  m_PrefabInstance: {fileID: 1956649500}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1291425461
 GameObject:
   m_ObjectHideFlags: 0
@@ -1889,67 +1883,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1748796218}
   m_CullTransparentMesh: 1
---- !u!1001 &1956649500
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 963194228}
-    m_Modifications:
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3004900268127131152, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6960641034515497560, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_Name
-      value: Heavy Revolver
-      objectReference: {fileID: 0}
-    - target: {fileID: 6960641034515497560, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
 --- !u!1001 &2026125793
 PrefabInstance:
   m_ObjectHideFlags: 0
