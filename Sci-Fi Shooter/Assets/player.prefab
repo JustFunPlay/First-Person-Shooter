@@ -94,7 +94,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8449034775582622738}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 146a084e751aabc49a0cab5f74419a40, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
@@ -114,7 +114,7 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 2
   m_Constraints: 112
   m_CollisionDetection: 2
 --- !u!114 &8449034775582622739
@@ -135,7 +135,7 @@ MonoBehaviour:
   cam: {fileID: 8449034776013149262}
   camRot: {fileID: 8449034776532404089}
   leanPoint: {fileID: 8449034776112595564}
-  moveSpeed: 10
+  moveSpeed: 70
   lookSpeed: 0.35
   inventory: {fileID: 11400000, guid: 6aee7fbed7098f6419f19f5ec65bb428, type: 2}
   gunpos: {fileID: 0}

@@ -139,7 +139,10 @@ public class PlayerControll : CharacterHealth
     // Update is called once per frame
     void FixedUpdate()
     {
-        rb.MovePosition(transform.position + transform.forward * moveVector.y * moveSpeed * Time.fixedDeltaTime + transform.right * moveVector.x * moveSpeed * Time.fixedDeltaTime);
+        //rb.MovePosition(transform.position + transform.forward * moveVector.y * moveSpeed * Time.fixedDeltaTime + transform.right * moveVector.x * moveSpeed * Time.fixedDeltaTime);
+
+        rb.AddRelativeForce(moveVector.x * moveSpeed, 0, moveVector.y * moveSpeed, ForceMode.Acceleration);
+        
         //if (syncGunAim && Physics.Raycast(cam.position, cam.forward, out RaycastHit hit, 500f))
         //{
         //    gunpos.LookAt(hit.point, cam.up);
