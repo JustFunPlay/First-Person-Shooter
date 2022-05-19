@@ -4,6 +4,15 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Main Menu Scene.unity
+    guid: 2810a1a4e4a18af45bb2eecf98bf0793
+  - enabled: 1
+    path: Assets/Scenes/ShowCase.unity
+    guid: ac3b1e7bf60577346a1ae673dc052c21
+  - enabled: 1
+    path: Assets/Scenes/Firing Range.unity
+    guid: b8ea03ede1fd42d40b1f4c50f4cc50fa
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 2272c261f6e23c34ba59ad8d0dd2b796, type: 2}
