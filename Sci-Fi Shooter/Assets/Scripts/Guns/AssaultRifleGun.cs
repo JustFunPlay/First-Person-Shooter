@@ -11,6 +11,7 @@ public class AssaultRifleGun : GunBase
     public bool toggleFireMode;
     public Transform firePoint;
     public GameObject fakeHit;
+    public GameObject trail;
     bool faToggle;
     bool keepFiring;
 
@@ -153,13 +154,23 @@ public class AssaultRifleGun : GunBase
         float convertedAccuracy = (100 - accuracy) / 200;
         if (shotIndex >= sprayPattern.Length)
         {
-            if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
+            Vector3 bulletDirection = new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy));
+            if (Physics.Raycast(firePoint.position, firePoint.forward + bulletDirection, out RaycastHit hit, 500f))
             {
                 if (hit.collider.GetComponent<HitBox>())
                 {
                     hit.collider.GetComponent<HitBox>().HitDamage(damage);
                 }
                 Instantiate(fakeHit, hit.point, Quaternion.identity);
+                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
+                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
+                newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+            }
+            else
+            {
+                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
+                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
+                newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + bulletDirection) * 500);
             }
             if (animator.GetBool("ADS") == true)
             {
@@ -179,6 +190,15 @@ public class AssaultRifleGun : GunBase
                     hit.collider.GetComponent<HitBox>().HitDamage(damage);
                 }
                 Instantiate(fakeHit, hit.point, Quaternion.identity);
+                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
+                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
+                newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+            }
+            else
+            {
+                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
+                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
+                newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + sprayPattern[shotIndex].fixedSpray) * 500);
             }
             if (animator.GetBool("ADS") == true)
             {

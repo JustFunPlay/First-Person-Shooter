@@ -11,6 +11,7 @@ public class ShotGun : GunBase
     public float reloadTime;
     public Transform bulletPoint;
     public GameObject fakeHit;
+    public GameObject trail;
     public Vector3 recoilValue;
     [Range(0f, 100f)]
     public float accuracy;
@@ -156,8 +157,11 @@ public class ShotGun : GunBase
         animator.SetTrigger("Shoot");
         for (int i = 0; i < fixedPellets.Length + extraPellets; i++)
         {
+            Vector3 bulletDirection = new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy));
+
             if (i < fixedPellets.Length)
             {
+
                 if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + bulletPoint.TransformDirection(fixedPellets[i]), out RaycastHit hit, 500f))
                 {
                     if (hit.collider.GetComponent<HitBox>())
@@ -165,16 +169,35 @@ public class ShotGun : GunBase
                         hit.collider.GetComponent<HitBox>().HitDamage(damage);
                     }
                     Instantiate(fakeHit, hit.point, Quaternion.identity);
+                    GameObject newTrail = Instantiate(trail, bulletPoint.position, Quaternion.identity);
+                    newTrail.GetComponent<LineRenderer>().SetPosition(0, bulletPoint.position);
+                    newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+                }
+                else
+                {
+                    GameObject newTrail = Instantiate(trail, bulletPoint.position, Quaternion.identity);
+                    newTrail.GetComponent<LineRenderer>().SetPosition(0, bulletPoint.position);
+                    newTrail.GetComponent<LineRenderer>().SetPosition(1, bulletPoint.position + (bulletPoint.forward + fixedPellets[i]) * 500);
                 }
             }
-            else if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
+            else if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + bulletDirection, out RaycastHit hit, 500f))
             {
                 if (hit.collider.GetComponent<HitBox>())
                 {
                     hit.collider.GetComponent<HitBox>().HitDamage(damage);
                 }
                 Instantiate(fakeHit, hit.point, Quaternion.identity);
+                GameObject newTrail = Instantiate(trail, bulletPoint.position, Quaternion.identity);
+                newTrail.GetComponent<LineRenderer>().SetPosition(0, bulletPoint.position);
+                newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
             }
+            else
+            {
+                GameObject newTrail = Instantiate(trail, bulletPoint.position, Quaternion.identity);
+                newTrail.GetComponent<LineRenderer>().SetPosition(0, bulletPoint.position);
+                newTrail.GetComponent<LineRenderer>().SetPosition(1, bulletPoint.position + (bulletPoint.forward + bulletDirection) * 500);
+            }
+            
         }
         if (weaponSlot == WeaponSlot.Primary)
         {
