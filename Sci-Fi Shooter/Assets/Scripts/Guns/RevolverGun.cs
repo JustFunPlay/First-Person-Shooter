@@ -238,4 +238,15 @@ public class RevolverGun : GunBase
             animator.SetBool("ADS", false);
         }
     }
+    private void FixedUpdate()
+    {
+        if (delayToReset > 0)
+        {
+            delayToReset -= Time.fixedDeltaTime;
+        }
+        else if (shotIndex > 0)
+        {
+            shotIndex--;
+        }
+    }
 }

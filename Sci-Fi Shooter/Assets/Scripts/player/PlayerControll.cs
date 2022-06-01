@@ -33,7 +33,7 @@ public class PlayerControll : CharacterHealth
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        weaponInHand = Instantiate(inventory.primaryWeapon, cam.position, cam.rotation, cam);
+        weaponInHand = Instantiate(inventory.meleeWeapon, cam.position, cam.rotation, cam);
         weaponInHand.GetComponent<GunBase>().OnEquip(this);
     }
 
@@ -82,7 +82,7 @@ public class PlayerControll : CharacterHealth
     }
     public void EquipPrimary()
     {
-        if (currentWeapon != WeaponSlot.Primary)
+        if (currentWeapon != WeaponSlot.Primary && inventory.primaryWeapon)
         {
             weaponInHand.GetComponent<GunBase>().OnUnEquip();
             weaponInHand = Instantiate(inventory.primaryWeapon, cam.position, cam.rotation, cam);
@@ -93,7 +93,7 @@ public class PlayerControll : CharacterHealth
     }
     public void EquipSecondary()
     {
-        if (currentWeapon != WeaponSlot.Secondary)
+        if (currentWeapon != WeaponSlot.Secondary && inventory.secondaryWeapon)
         {
             weaponInHand.GetComponent<GunBase>().OnUnEquip();
             weaponInHand = Instantiate(inventory.secondaryWeapon, cam.position, cam.rotation, cam);
@@ -104,7 +104,7 @@ public class PlayerControll : CharacterHealth
     }
     public void EquipMelee()
     {
-        if (currentWeapon != WeaponSlot.Melee)
+        if (currentWeapon != WeaponSlot.Melee && inventory.meleeWeapon)
         {
             weaponInHand.GetComponent<GunBase>().OnUnEquip();
             weaponInHand = Instantiate(inventory.meleeWeapon, cam.position, cam.rotation, cam);
@@ -115,7 +115,7 @@ public class PlayerControll : CharacterHealth
     }
     public void EquipGrenade()
     {
-        if (currentWeapon != WeaponSlot.Grenade && inventory.grenades > 0)
+        if (currentWeapon != WeaponSlot.Grenade && inventory.grenades > 0 && inventory.grenade)
         {
             weaponInHand.GetComponent<GunBase>().OnUnEquip();
             weaponInHand = Instantiate(inventory.grenade, cam.position, cam.rotation, cam);
@@ -126,7 +126,7 @@ public class PlayerControll : CharacterHealth
     }
     public void EquipAbility()
     {
-        if (currentWeapon != WeaponSlot.Ability && inventory.abilityAvailibility > 0)
+        if (currentWeapon != WeaponSlot.Ability && inventory.abilityAvailibility > 0 && inventory.ability)
         {
             GameObject ability = Instantiate(inventory.ability, cam.position, cam.rotation, cam);
             ability.GetComponent<GunBase>().OnEquip(this);
