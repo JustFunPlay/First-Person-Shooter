@@ -12,6 +12,7 @@ public class AssaultRifleGun : GunBase
     public Transform firePoint;
     public GameObject fakeHit;
     public GameObject trail;
+    [Range(0, 100)]public float adsZoom;
     bool faToggle;
     bool keepFiring;
 
@@ -293,11 +294,18 @@ public class AssaultRifleGun : GunBase
         if (callbackContext.started)
         {
             animator.SetBool("ADS", true);
+            player.cam.GetComponent<Camera>().fieldOfView = player.baseFov * (1 - (adsZoom / 100));
         }
         else if (callbackContext.canceled)
         {
             animator.SetBool("ADS", false);
+            player.cam.GetComponent<Camera>().fieldOfView = player.baseFov;
         }
+    }
+    public override void OnUnEquip()
+    {
+        player.cam.GetComponent<Camera>().fieldOfView = player.baseFov;
+        base.OnUnEquip();
     }
 }
 [System.Serializable]

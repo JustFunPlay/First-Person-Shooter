@@ -30,11 +30,14 @@ public class PlayerControll : CharacterHealth
     public Text maxAmmoText;
     public GameObject crossHair;
 
+    public float baseFov;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         weaponInHand = Instantiate(inventory.meleeWeapon, cam.position, cam.rotation, cam);
         weaponInHand.GetComponent<GunBase>().OnEquip(this);
+        baseFov = GetComponentInChildren<Camera>().fieldOfView;
     }
 
     public void OnMove(InputAction.CallbackContext callbackContext)

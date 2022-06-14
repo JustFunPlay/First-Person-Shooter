@@ -12,6 +12,7 @@ public class ShotGun : GunBase
     public Transform bulletPoint;
     public GameObject fakeHit;
     public GameObject trail;
+    [Range(0, 100)] public float adsZoom;
     public Vector3 recoilValue;
     [Range(0f, 100f)]
     public float accuracy;
@@ -253,6 +254,24 @@ public class ShotGun : GunBase
             faToggle = true;
             StartCoroutine(AutoFire());
         }
+    }
+    public override void SecondaryFire(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            animator.SetBool("ADS", true);
+            player.cam.GetComponent<Camera>().fieldOfView = player.baseFov * (1 - (adsZoom / 100));
+        }
+        else if (callbackContext.canceled)
+        {
+            animator.SetBool("ADS", false);
+            player.cam.GetComponent<Camera>().fieldOfView = player.baseFov;
+        }
+    }
+    public override void OnUnEquip()
+    {
+        player.cam.GetComponent<Camera>().fieldOfView = player.baseFov;
+        base.OnUnEquip();
     }
 }
 

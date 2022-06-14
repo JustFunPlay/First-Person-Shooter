@@ -11,6 +11,8 @@ public class BurstRifleGun : GunBase
     public Transform bulletPoint;
     public float reloadTime;
     public GameObject fakeHit;
+    public GameObject trail;
+    [Range(0, 100)] public float adsZoom;
 
     public FixedSprayPattern[] sprayPattern;
     int shotIndex;
@@ -91,13 +93,23 @@ public class BurstRifleGun : GunBase
         float convertedAccuracy = (100 - accuracy) / 200;
         if (shotIndex >= sprayPattern.Length)
         {
-            if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
+            Vector3 bulletDirection = new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy));
+            if (Physics.Raycast(bulletPoint.position, bulletPoint.forward + bulletDirection, out RaycastHit hit, 500f))
             {
                 if (hit.collider.GetComponent<HitBox>())
                 {
                     hit.collider.GetComponent<HitBox>().HitDamage(damage);
                 }
                 Instantiate(fakeHit, hit.point, Quaternion.identity);
+                GameObject newTrail = Instantiate(trail, bulletPoint.position, Quaternion.identity);
+                newTrail.GetComponent<LineRenderer>().SetPosition(0, bulletPoint.position);
+                newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+            }
+            else
+            {
+                GameObject newTrail = Instantiate(trail, bulletPoint.position, Quaternion.identity);
+                newTrail.GetComponent<LineRenderer>().SetPosition(0, bulletPoint.position);
+                newTrail.GetComponent<LineRenderer>().SetPosition(1, bulletPoint.position + (bulletPoint.forward + bulletDirection) * 500);
             }
             if (animator.GetBool("ADS") == true)
             {
@@ -117,6 +129,15 @@ public class BurstRifleGun : GunBase
                     hit.collider.GetComponent<HitBox>().HitDamage(damage);
                 }
                 Instantiate(fakeHit, hit.point, Quaternion.identity);
+                GameObject newTrail = Instantiate(trail, bulletPoint.position, Quaternion.identity);
+                newTrail.GetComponent<LineRenderer>().SetPosition(0, bulletPoint.position);
+                newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+            }
+            else
+            {
+                GameObject newTrail = Instantiate(trail, bulletPoint.position, Quaternion.identity);
+                newTrail.GetComponent<LineRenderer>().SetPosition(0, bulletPoint.position);
+                newTrail.GetComponent<LineRenderer>().SetPosition(1, bulletPoint.position + (bulletPoint.forward + sprayPattern[shotIndex].fixedSpray) * 500);
             }
             if (animator.GetBool("ADS") == true)
             {
@@ -192,5 +213,23 @@ public class BurstRifleGun : GunBase
         {
             shotIndex--;
         }
+    }
+    public override void SecondaryFire(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.started)
+        {
+            animator.SetBool("ADS", true);
+            player.cam.GetComponent<Camera>().fieldOfView = player.baseFov * (1 - (adsZoom / 100));
+        }
+        else if (callbackContext.canceled)
+        {
+            animator.SetBool("ADS", false);
+            player.cam.GetComponent<Camera>().fieldOfView = player.baseFov;
+        }
+    }
+    public override void OnUnEquip()
+    {
+        player.cam.GetComponent<Camera>().fieldOfView = player.baseFov;
+        base.OnUnEquip();
     }
 }

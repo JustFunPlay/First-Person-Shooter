@@ -141,12 +141,13 @@ MonoBehaviour:
   gunpos: {fileID: 0}
   syncGunAim: 1
   weaponInHand: {fileID: 0}
-  currentWeapon: 0
-  previousWeapon: 0
+  currentWeapon: 2
+  previousWeapon: 2
   hpText: {fileID: 8449034776731448565}
   currentAmmoText: {fileID: 8449034776743980941}
   maxAmmoText: {fileID: 8449034775734328703}
   crossHair: {fileID: 8449034777343441408}
+  baseFov: 0
 --- !u!114 &8449034775582622741
 MonoBehaviour:
   m_ObjectHideFlags: 0

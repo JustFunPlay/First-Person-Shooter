@@ -888,6 +888,7 @@ MonoBehaviour:
   firePoint: {fileID: 7051172856149547690}
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
   trail: {fileID: 5241150577118110587, guid: 83bc0703e3a301e498a833c89c90864f, type: 3}
+  adsZoom: 10
   sprayPattern:
   - fixedSpray: {x: 0, y: 0, z: 0}
     fixedRecoil: {x: 1, y: 0, z: 0}
