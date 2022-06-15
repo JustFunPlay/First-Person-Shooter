@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56b64d526ff5b54fa3697a82f3af382, type: 3}
   m_Name: New Player Inventory
   m_EditorClassIdentifier: 
-  primaryWeapon: {fileID: 2801137175554194740, guid: fa8ee33d3e50c204587bb1d0ce11b03b, type: 3}
-  primaryAmmo: 24
-  secondaryWeapon: {fileID: 6960641034515497560, guid: bfd89bbed3d58e54d96f9151fa31a326, type: 3}
+  primaryWeapon: {fileID: 414383895644857892, guid: d4cbf2a7248b6c1488e95e68bdc7e05a, type: 3}
+  primaryAmmo: 30
+  secondaryWeapon: {fileID: 15185427372005365, guid: bfe8316a1595d0e48a26bbd580c28d2c, type: 3}
   secondaryAmmo: 15
   meleeWeapon: {fileID: 6170588555205535749, guid: 332b3c0bf7701804d87e5452fef65857, type: 3}
   grenade: {fileID: 3125177558377234286, guid: 3c722ee78dac36949be091944b1ea2d6, type: 3}
@@ -23,6 +23,6 @@ MonoBehaviour:
   abilityAvailibility: 2
   lightAmmo: 999
   mediumAmmo: 999
-  heavyAmmo: 981
+  heavyAmmo: 999
   shotgunAmmo: 999
   railAmmo: 999

@@ -881,7 +881,7 @@ MonoBehaviour:
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
-  attackSpeed: 9
+  attackSpeed: 10
   reloadTime: 1.2
   firemode: 1
   toggleFireMode: 0
