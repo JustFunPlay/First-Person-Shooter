@@ -48,7 +48,7 @@ MonoBehaviour:
   ammoType: 0
   damage: 4
   maxAmmo: 15
-  equipTime: 0.8
+  equipTime: 0.6
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}

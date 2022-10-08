@@ -136,7 +136,7 @@ MonoBehaviour:
   camRot: {fileID: 8449034776532404089}
   leanPoint: {fileID: 8449034776112595564}
   moveSpeed: 70
-  lookSpeed: 0.35
+  lookSpeed: 0.2
   inventory: {fileID: 11400000, guid: 6aee7fbed7098f6419f19f5ec65bb428, type: 2}
   gunpos: {fileID: 0}
   syncGunAim: 1

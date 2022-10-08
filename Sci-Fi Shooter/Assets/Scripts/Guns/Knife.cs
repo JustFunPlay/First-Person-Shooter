@@ -24,7 +24,10 @@ public class Knife : GunBase
         yield return new WaitForSeconds(timeToHit);
         if (Physics.Raycast(player.cam.position, player.cam.forward, out RaycastHit hit, 1.5f))
         {
-
+            if(hit.collider.GetComponent<HitBox>())
+            {
+                hit.collider.GetComponent<HitBox>().HitDamage(damage);
+            }
         }
         yield return new WaitForSeconds(timeAfterHit);
         canFire = true;

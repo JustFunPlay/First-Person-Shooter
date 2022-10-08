@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3002861239882432560}
   - component: {fileID: 1131206338534721048}
+  - component: {fileID: 1334702601832198959}
   m_Layer: 0
   m_Name: A KIFE!
   m_TagString: Untagged
@@ -46,12 +47,35 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponSlot: 2
   ammoType: 6
-  damage: 0
+  damage: 33
   maxAmmo: 0
   equipTime: 0.4
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
+  timeToHit: 0.15
+  timeAfterHit: 0.35
+  fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
+  animator: {fileID: 1334702601832198959}
+--- !u!95 &1334702601832198959
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6170588555205535749}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &8867667564985695798
 GameObject:
   m_ObjectHideFlags: 0
