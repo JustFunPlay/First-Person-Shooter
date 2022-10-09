@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class AssaultRifleGun : GunBase
+public class AssaultRifleGun : AdditionalGunInformation
 {
     public float attackSpeed;
     public float reloadTime;
     public ArFiremode firemode;
     public bool toggleFireMode;
-    public Transform firePoint;
-    public GameObject fakeHit;
-    public GameObject trail;
     [Range(0, 100)]public float adsZoom;
     bool faToggle;
     bool keepFiring;
@@ -20,11 +17,6 @@ public class AssaultRifleGun : GunBase
     int shotIndex;
     float delayToReset;
 
-    public Vector3 recoilValue;
-    public float accuracy;
-    bool isReloading;
-    public float adsRecoilReduction;
-    public Animator animator;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
         if (player.inventory.primaryAmmo == 0 && weaponSlot == WeaponSlot.Primary)
@@ -129,9 +121,7 @@ public class AssaultRifleGun : GunBase
             }
             canFire = true;
             if (player.inventory.primaryAmmo == 0 && !isReloading)
-            {
                 StartCoroutine(Reloading());
-            }
         }
         else if (weaponSlot == WeaponSlot.Secondary)
         {
@@ -144,9 +134,7 @@ public class AssaultRifleGun : GunBase
             }
             canFire = true;
             if (player.inventory.secondaryAmmo == 0 && !isReloading)
-            {
                 StartCoroutine(Reloading());
-            }
         }
     }
     public void ShootBullet()
@@ -159,9 +147,7 @@ public class AssaultRifleGun : GunBase
             if (Physics.Raycast(firePoint.position, firePoint.forward + bulletDirection, out RaycastHit hit, 500f))
             {
                 if (hit.collider.GetComponent<HitBox>())
-                {
                     hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                }
                 Instantiate(fakeHit, hit.point, Quaternion.identity);
                 GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
                 newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
@@ -174,22 +160,16 @@ public class AssaultRifleGun : GunBase
                 newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + bulletDirection) * 500);
             }
             if (animator.GetBool("ADS") == true)
-            {
                 GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100), RecoilType.Procedural);
-            }
             else
-            {
                 GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
-            }
         }
         else
         {
             if (Physics.Raycast(firePoint.position, firePoint.forward + firePoint.TransformDirection(sprayPattern[shotIndex].fixedSpray), out RaycastHit hit, 500f))
             {
                 if (hit.collider.GetComponent<HitBox>())
-                {
                     hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                }
                 Instantiate(fakeHit, hit.point, Quaternion.identity);
                 GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
                 newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
@@ -202,13 +182,9 @@ public class AssaultRifleGun : GunBase
                 newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + sprayPattern[shotIndex].fixedSpray) * 500);
             }
             if (animator.GetBool("ADS") == true)
-            {
                 GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil * ((100 - adsRecoilReduction) / 100), RecoilType.Fixed);
-            }
             else
-            {
                 GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil, RecoilType.Fixed);
-            }
         }
         shotIndex++;
         delayToReset = 1;
@@ -220,9 +196,7 @@ public class AssaultRifleGun : GunBase
         isReloading = true;
         delayToReset = 0;
         if (faToggle)
-        {
             faToggle = false;
-        }
         animator.speed = 1f / reloadTime;
         animator.SetTrigger("Reload");
         yield return new WaitForSeconds(reloadTime);
@@ -281,13 +255,9 @@ public class AssaultRifleGun : GunBase
     private void FixedUpdate()
     {
         if (delayToReset > 0)
-        {
             delayToReset -= Time.fixedDeltaTime;
-        }
         else if (shotIndex > 0)
-        {
             shotIndex--;
-        }
     }
     public override void SecondaryFire(InputAction.CallbackContext callbackContext)
     {

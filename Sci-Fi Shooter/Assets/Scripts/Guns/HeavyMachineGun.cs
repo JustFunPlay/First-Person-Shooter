@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class HeavyMachineGun : GunBase
+public class HeavyMachineGun : AdditionalGunInformation
 {
     public float attackSpeed;
     public float reloadTime;
-    public Transform firePoint;
-    public GameObject fakeHit;
     bool faToggle;
     bool keepFiring;
     public float maxASBonus;
@@ -22,35 +20,21 @@ public class HeavyMachineGun : GunBase
     int shotIndex;
     float delayToReset;
 
-    public Vector3 recoilValue;
-    public float accuracy;
-    bool isReloading;
-    public float adsRecoilReduction;
-    public Animator animator;
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
         if (player.inventory.primaryAmmo == 0 && weaponSlot == WeaponSlot.Primary)
         {
             if (!isReloading)
-            {
                 StartCoroutine(Reloading());
-            }
         }
-        else if (player.inventory.secondaryAmmo == 0 && weaponSlot == WeaponSlot.Secondary)
-        {
-            if (!isReloading)
-            {
-                StartCoroutine(Reloading());
-            }
-        }
+        else if (player.inventory.secondaryAmmo == 0 && weaponSlot == WeaponSlot.Secondary && !isReloading)
+            StartCoroutine(Reloading());
         if (callbackContext.started)
         {
             faToggle = true;
             keepFiring = true;
             if (canFire)
-            {
                 StartCoroutine(Dakka());
-            }
         }
         else if (callbackContext.canceled)
         {
@@ -72,9 +56,7 @@ public class HeavyMachineGun : GunBase
             }
             canFire = true;
             if (player.inventory.primaryAmmo == 0 && !isReloading)
-            {
                 StartCoroutine(Reloading());
-            }
         }
         else if (weaponSlot == WeaponSlot.Secondary)
         {
@@ -87,22 +69,16 @@ public class HeavyMachineGun : GunBase
             }
             canFire = true;
             if (player.inventory.secondaryAmmo == 0 && !isReloading)
-            {
                 StartCoroutine(Reloading());
-            }
         }
         StartCoroutine(CoolingDown());
     }
     public override void Reload()
     {
         if (!isReloading && player.inventory.primaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Primary)
-        {
             StartCoroutine(Reloading());
-        }
         else if (!isReloading && player.inventory.secondaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Secondary)
-        {
             StartCoroutine(Reloading());
-        }
     }
     public void ShootBullet()
     {
@@ -113,38 +89,26 @@ public class HeavyMachineGun : GunBase
             if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
             {
                 if (hit.collider.GetComponent<HitBox>())
-                {
                     hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                }
                 Instantiate(fakeHit, hit.point, Quaternion.identity);
             }
             if (animator.GetBool("ADS") == true)
-            {
                 GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100), RecoilType.Procedural);
-            }
             else
-            {
                 GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
-            }
         }
         else
         {
             if (Physics.Raycast(firePoint.position, firePoint.forward + firePoint.TransformDirection(sprayPattern[shotIndex].fixedSpray), out RaycastHit hit, 500f))
             {
                 if (hit.collider.GetComponent<HitBox>())
-                {
                     hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                }
                 Instantiate(fakeHit, hit.point, Quaternion.identity);
             }
             if (animator.GetBool("ADS") == true)
-            {
                 GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil * ((100 - adsRecoilReduction) / 100), RecoilType.Fixed);
-            }
             else
-            {
                 GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil, RecoilType.Fixed);
-            }
         }
         shotIndex++;
         delayToReset = 1;
@@ -156,9 +120,7 @@ public class HeavyMachineGun : GunBase
         isReloading = true;
         delayToReset = 0;
         if (faToggle)
-        {
             faToggle = false;
-        }
         animator.speed = 1f / reloadTime;
         animator.SetTrigger("Reload");
         yield return new WaitForSeconds(reloadTime);
@@ -219,9 +181,7 @@ public class HeavyMachineGun : GunBase
     {
         CheckFireRate();
         if (shotsFired < shotsToMaxBonus)
-        {
             shotsFired++;
-        }
     }
     IEnumerator CoolingDown()
     {
@@ -229,9 +189,7 @@ public class HeavyMachineGun : GunBase
         {
             yield return new WaitForSeconds(coolDownTime/shotsToMaxBonus);
             if (shotsFired > 0)
-            {
                 shotsFired--;
-            }
             CheckFireRate();
         }
     }
@@ -242,12 +200,8 @@ public class HeavyMachineGun : GunBase
     private void FixedUpdate()
     {
         if (delayToReset > 0)
-        {
             delayToReset -= Time.fixedDeltaTime;
-        }
         else if (shotIndex > 0)
-        {
             shotIndex--;
-        }
     }
 }
