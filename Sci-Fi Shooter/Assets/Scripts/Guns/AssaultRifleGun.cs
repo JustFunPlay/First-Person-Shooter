@@ -144,21 +144,7 @@ public class AssaultRifleGun : AdditionalGunInformation
         if (shotIndex >= sprayPattern.Length)
         {
             Vector3 bulletDirection = new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy));
-            if (Physics.Raycast(firePoint.position, firePoint.forward + bulletDirection, out RaycastHit hit, 500f))
-            {
-                if (hit.collider.GetComponent<HitBox>())
-                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                Instantiate(fakeHit, hit.point, Quaternion.identity);
-                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
-            }
-            else
-            {
-                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + bulletDirection) * 500);
-            }
+            FireBullet(bulletDirection);
             if (animator.GetBool("ADS") == true)
                 GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100), RecoilType.Procedural);
             else
@@ -166,21 +152,7 @@ public class AssaultRifleGun : AdditionalGunInformation
         }
         else
         {
-            if (Physics.Raycast(firePoint.position, firePoint.forward + firePoint.TransformDirection(sprayPattern[shotIndex].fixedSpray), out RaycastHit hit, 500f))
-            {
-                if (hit.collider.GetComponent<HitBox>())
-                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                Instantiate(fakeHit, hit.point, Quaternion.identity);
-                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
-            }
-            else
-            {
-                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + sprayPattern[shotIndex].fixedSpray) * 500);
-            }
+            FireBullet(firePoint.TransformDirection(sprayPattern[shotIndex].fixedSpray));
             if (animator.GetBool("ADS") == true)
                 GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil * ((100 - adsRecoilReduction) / 100), RecoilType.Fixed);
             else

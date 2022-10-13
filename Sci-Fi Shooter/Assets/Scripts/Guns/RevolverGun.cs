@@ -3,56 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class RevolverGun : GunBase
+public class RevolverGun : AdditionalGunInformation
 {
     public float attackSpeed;
     public float reloadTime;
-    public Transform firePoint;
-    public GameObject fakeHit;
-    public GameObject trail;
+
     [Range(0, 100)] public float adsZoom;
 
     public FixedSprayPattern[] sprayPattern;
     int shotIndex;
     float delayToReset;
 
-    public Vector3 recoilValue;
-    public float accuracy;
-    bool isReloading;
-    public float adsRecoilReduction;
-    public Animator animator;
-
     public override void Fire(InputAction.CallbackContext callbackContext)
     {
         if (player.inventory.primaryAmmo == 0 && weaponSlot == WeaponSlot.Primary)
         {
             if (!isReloading)
-            {
                 StartCoroutine(Reloading());
-            }
         }
         else if (player.inventory.secondaryAmmo == 0 && weaponSlot == WeaponSlot.Secondary)
         {
             if (!isReloading)
-            {
                 StartCoroutine(Reloading());
-            }
         }
         else if (callbackContext.started && canFire)
-        {
             StartCoroutine(Shoot());
-        }
     }
     public override void Reload()
     {
         if (!isReloading && player.inventory.primaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Primary)
-        {
             StartCoroutine(Reloading());
-        }
         else if (!isReloading && player.inventory.secondaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Secondary)
-        {
             StartCoroutine(Reloading());
-        }
     }
     public IEnumerator Shoot()
     {
@@ -60,93 +42,41 @@ public class RevolverGun : GunBase
         print("fire");
         ShootBullet();
         if (weaponSlot == WeaponSlot.Primary)
-        {
             player.inventory.primaryAmmo--;
-        }
         else if (weaponSlot == WeaponSlot.Secondary)
-        {
             player.inventory.secondaryAmmo--;
-        }
         player.UpdateAmmo(ammoType, weaponSlot);
         yield return new WaitForSeconds(1f / attackSpeed);
         canFire = true;
         if (player.inventory.primaryAmmo == 0 && !isReloading && weaponSlot == WeaponSlot.Primary)
-        {
             StartCoroutine(Reloading());
-        }
         else if (player.inventory.secondaryAmmo == 0 && !isReloading && weaponSlot == WeaponSlot.Secondary)
-        {
             StartCoroutine(Reloading());
-        }
     }
     public void ShootBullet()
     {
         animator.SetTrigger("Shoot");
         if (weaponSlot == WeaponSlot.Primary)
-        {
             animator.SetInteger("Shot", maxAmmo - player.inventory.primaryAmmo);
-        }
         else if (weaponSlot == WeaponSlot.Secondary)
-        {
             animator.SetInteger("Shot", maxAmmo - player.inventory.secondaryAmmo);
-        }
         float convertedAccuracy = (100 - accuracy) / 200;
         if (shotIndex >= sprayPattern.Length)
         {
             Vector3 bulletDirection = new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy));
-            if (Physics.Raycast(firePoint.position, firePoint.forward + bulletDirection, out RaycastHit hit, 500f))
-            {
-                if (hit.collider.GetComponent<HitBox>())
-                {
-                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                }
-                Instantiate(fakeHit, hit.point, Quaternion.identity);
-                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
-            }
-            else
-            {
-                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + bulletDirection) * 500);
-            }
+            FireBullet(bulletDirection);
             if (animator.GetBool("ADS") == true)
-            {
                 GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100), RecoilType.Procedural);
-            }
             else
-            {
                 GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
-            }
         }
         else
         {
-            if (Physics.Raycast(firePoint.position, firePoint.forward + firePoint.TransformDirection(sprayPattern[shotIndex].fixedSpray), out RaycastHit hit, 500f))
-            {
-                if (hit.collider.GetComponent<HitBox>())
-                {
-                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                }
-                Instantiate(fakeHit, hit.point, Quaternion.identity);
-                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
-            }
-            else
-            {
-                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + sprayPattern[shotIndex].fixedSpray) * 500);
-            }
+            FireBullet(firePoint.TransformDirection(sprayPattern[shotIndex].fixedSpray));
             if (animator.GetBool("ADS") == true)
-            {
                 GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil * ((100 - adsRecoilReduction) / 100), RecoilType.Fixed);
-            }
             else
-            {
                 GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil, RecoilType.Fixed);
-            }
         }
         shotIndex++;
         delayToReset = 1;

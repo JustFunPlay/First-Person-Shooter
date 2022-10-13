@@ -86,12 +86,8 @@ public class HeavyMachineGun : AdditionalGunInformation
         float convertedAccuracy = (100 - accuracy) / 200;
         if (shotIndex >= sprayPattern.Length)
         {
-            if (Physics.Raycast(firePoint.position, firePoint.forward + new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy)), out RaycastHit hit, 500f))
-            {
-                if (hit.collider.GetComponent<HitBox>())
-                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                Instantiate(fakeHit, hit.point, Quaternion.identity);
-            }
+            Vector3 direction = new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy));
+            FireBullet(direction);
             if (animator.GetBool("ADS") == true)
                 GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction) / 100), RecoilType.Procedural);
             else
@@ -99,12 +95,7 @@ public class HeavyMachineGun : AdditionalGunInformation
         }
         else
         {
-            if (Physics.Raycast(firePoint.position, firePoint.forward + firePoint.TransformDirection(sprayPattern[shotIndex].fixedSpray), out RaycastHit hit, 500f))
-            {
-                if (hit.collider.GetComponent<HitBox>())
-                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                Instantiate(fakeHit, hit.point, Quaternion.identity);
-            }
+            FireBullet(firePoint.TransformDirection(sprayPattern[shotIndex].fixedSpray));
             if (animator.GetBool("ADS") == true)
                 GetComponentInParent<RecoilScript>().Recoil(sprayPattern[shotIndex].fixedRecoil * ((100 - adsRecoilReduction) / 100), RecoilType.Fixed);
             else
