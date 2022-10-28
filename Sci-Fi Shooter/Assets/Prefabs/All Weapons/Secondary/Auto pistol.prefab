@@ -27,6 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8108117362111136713}
   m_Father: {fileID: 0}
@@ -52,13 +53,23 @@ MonoBehaviour:
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
+  firePoint: {fileID: 2800422485861852038}
+  fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
+  bulletTrail: {fileID: 8983428547366053552, guid: 83bc0703e3a301e498a833c89c90864f, type: 3}
+  recoilValue: {x: 1.5, y: 1.5, z: 0.3}
+  accuracy: 90
+  adsRecoilReduction: 30
+  animator: {fileID: 8585715953352251541}
+  bangableLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  bangable:
+    serializedVersion: 2
+    m_Bits: 119
   attackSpeed: 15
   reloadTime: 1
   firemode: 1
   toggleFireMode: 0
-  firePoint: {fileID: 2800422485861852038}
-  fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
-  trail: {fileID: 5241150577118110587, guid: 83bc0703e3a301e498a833c89c90864f, type: 3}
   adsZoom: 15
   sprayPattern:
   - fixedSpray: {x: 0, y: 0, z: 0}
@@ -71,10 +82,6 @@ MonoBehaviour:
     fixedRecoil: {x: 1.5, y: 0.7, z: -0.3}
   - fixedSpray: {x: 0.02, y: -0.04, z: 0.02}
     fixedRecoil: {x: 1.5, y: 0.3, z: -0.1}
-  recoilValue: {x: 1.5, y: 1.5, z: 0.3}
-  accuracy: 90
-  adsRecoilReduction: 30
-  animator: {fileID: 8585715953352251541}
 --- !u!1 &1888526011726783308
 GameObject:
   m_ObjectHideFlags: 0
@@ -101,6 +108,7 @@ Transform:
   m_LocalRotation: {x: 0.49991274, y: -0.50008726, z: -0.49991274, w: 0.50008726}
   m_LocalPosition: {x: -0.00543, y: 0, z: 0.0018799996}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2882439834390552229}
   m_RootOrder: 6
@@ -132,6 +140,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.5, y: -0.3, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2882439834390552229}
   m_Father: {fileID: 8374160923055667575}
@@ -139,7 +148,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &8585715953352251541
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -152,6 +161,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1

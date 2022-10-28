@@ -161,15 +161,15 @@ public class ShotGun : AdditionalGunInformation
                         hit.collider.GetComponent<HitBox>().HitDamage(damage);
                     }
                     Instantiate(fakeHit, hit.point, Quaternion.identity);
-                    GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                    newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                    newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+                    //GameObject newTrail = Instantiate(Brail, firePoint.position, Quaternion.identity);
+                    //newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
+                    //newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
                 }
                 else
                 {
-                    GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                    newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                    newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + fixedPellets[i]) * 500);
+                    //GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
+                    //newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
+                    //newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + fixedPellets[i]) * 500);
                 }
             }
             else if (Physics.Raycast(firePoint.position, firePoint.forward + bulletDirection, out RaycastHit hit, 500f))
@@ -179,15 +179,15 @@ public class ShotGun : AdditionalGunInformation
                     hit.collider.GetComponent<HitBox>().HitDamage(damage);
                 }
                 Instantiate(fakeHit, hit.point, Quaternion.identity);
-                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
+                //GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
+                //newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
+                //newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
             }
             else
             {
-                GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + bulletDirection) * 500);
+                //GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
+                //newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
+                //newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + bulletDirection) * 500);
             }
             
         }

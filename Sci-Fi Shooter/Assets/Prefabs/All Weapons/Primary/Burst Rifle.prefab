@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0.50000006, y: 0.49999994, z: 0.50000006, w: 0.49999994}
   m_LocalPosition: {x: 0, y: 0.008416869, z: 0.35478967}
   m_LocalScale: {x: 100, y: 99.999985, z: 100}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8772600407150068153}
   m_RootOrder: 1
@@ -51,6 +52,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -108,6 +110,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4783216754562084408}
   m_Father: {fileID: 0}
@@ -133,13 +136,23 @@ MonoBehaviour:
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
+  firePoint: {fileID: 3907341622202555097}
+  fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
+  bulletTrail: {fileID: 8983428547366053552, guid: 83bc0703e3a301e498a833c89c90864f, type: 3}
+  recoilValue: {x: 5, y: 2, z: 0.15}
+  accuracy: 93
+  adsRecoilReduction: 30
+  animator: {fileID: 4142506703632811169}
+  bangableLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  bangable:
+    serializedVersion: 2
+    m_Bits: 119
   burstCount: 3
   burstDuration: 0.3
   burstLockout: 0.2
-  bulletPoint: {fileID: 3907341622202555097}
   reloadTime: 1.3
-  fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
-  trail: {fileID: 5241150577118110587, guid: 83bc0703e3a301e498a833c89c90864f, type: 3}
   adsZoom: 15
   sprayPattern:
   - fixedSpray: {x: 0, y: 0, z: 0}
@@ -148,10 +161,6 @@ MonoBehaviour:
     fixedRecoil: {x: 5, y: 1, z: 0.1}
   - fixedSpray: {x: -0.015, y: -0.03, z: -0.01}
     fixedRecoil: {x: 5, y: 1.3, z: 0.1}
-  recoilValue: {x: 5, y: 2, z: 0.15}
-  accuracy: 93
-  adsRecoilReduction: 30
-  animator: {fileID: 4142506703632811169}
 --- !u!1 &5272227417747813506
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,6 +188,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.5, y: -0.4, z: 0.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8772600407150068153}
   m_Father: {fileID: 6890228356269787935}
@@ -186,7 +196,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!95 &4142506703632811169
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -199,6 +209,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -229,6 +240,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.162, z: 0.763}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8772600407150068153}
   m_RootOrder: 2
@@ -261,6 +273,7 @@ Transform:
   m_LocalRotation: {x: -0.50000006, y: 0.49999994, z: 0.50000006, w: 0.49999994}
   m_LocalPosition: {x: 0, y: -0.063, z: -0.058000006}
   m_LocalScale: {x: 100, y: 99.999985, z: 100}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8772600407150068153}
   m_RootOrder: 0
@@ -284,6 +297,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -343,6 +357,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -0.058, y: 0.063, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6565903067517547895}
   - {fileID: 5171817331256003923}

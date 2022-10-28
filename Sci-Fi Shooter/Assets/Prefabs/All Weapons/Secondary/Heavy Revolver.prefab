@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.036, y: 0.1, z: 0.0709}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3926386928589904665}
   m_RootOrder: 0
@@ -51,6 +52,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -108,6 +110,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0.2, y: -0.125, z: 0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3926386928589904665}
   - {fileID: 9214989115416827397}
@@ -116,7 +119,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!95 &4539336606460565605
 Animator:
-  serializedVersion: 3
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -129,6 +132,7 @@ Animator:
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
@@ -159,6 +163,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
   m_LocalPosition: {x: 0, y: 0.045, z: -0.225}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4386878288456278390}
   m_RootOrder: 1
@@ -191,6 +196,7 @@ Transform:
   m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 1.8019348e-18, y: -0.027670778, z: 0.13841873}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4974541039742084178}
   m_Father: {fileID: 4386878288456278390}
@@ -215,6 +221,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -273,6 +280,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4386878288456278390}
   m_Father: {fileID: 0}
@@ -298,11 +306,21 @@ MonoBehaviour:
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
-  attackSpeed: 3
-  reloadTime: 2.3
   firePoint: {fileID: 9214989115416827397}
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
-  trail: {fileID: 5241150577118110587, guid: 83bc0703e3a301e498a833c89c90864f, type: 3}
+  bulletTrail: {fileID: 8983428547366053552, guid: 83bc0703e3a301e498a833c89c90864f, type: 3}
+  recoilValue: {x: 8, y: 4, z: 0.5}
+  accuracy: 95
+  adsRecoilReduction: 30
+  animator: {fileID: 4539336606460565605}
+  bangableLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  bangable:
+    serializedVersion: 2
+    m_Bits: 119
+  attackSpeed: 3
+  reloadTime: 2.3
   adsZoom: 30
   sprayPattern:
   - fixedSpray: {x: 0, y: 0, z: 0}
@@ -311,7 +329,3 @@ MonoBehaviour:
     fixedRecoil: {x: 8, y: 2, z: 0.15}
   - fixedSpray: {x: -0.0021, y: -0.0012, z: -0.0059}
     fixedRecoil: {x: 8, y: -3, z: 0.3}
-  recoilValue: {x: 8, y: 4, z: 0.5}
-  accuracy: 95
-  adsRecoilReduction: 30
-  animator: {fileID: 4539336606460565605}
