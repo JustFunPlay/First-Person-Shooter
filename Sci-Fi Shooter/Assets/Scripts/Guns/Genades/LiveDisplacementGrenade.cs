@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiveDisplacementGrenade : MonoBehaviour
+public class LiveDisplacementGrenade : BaseGrenade
 {
     public void YeetGrenade()
     {

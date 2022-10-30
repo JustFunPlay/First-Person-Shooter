@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiveRevealGreneda : MonoBehaviour
+public class LiveRevealGreneda : BaseGrenade
 {
     float duration;
     float radius;
