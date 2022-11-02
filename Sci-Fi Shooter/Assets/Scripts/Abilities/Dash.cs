@@ -16,41 +16,19 @@ public class Dash : GunBase
         player.inventory.abilityAvailibility--;
         GameObject dashObject = Instantiate(yeet, transform.position, Quaternion.identity);
         dashObject.GetComponent<Dashing>().Dash(totalTicks, cooldown, distancePerTick, player.gameObject);
+        player.previousWeapon = player.currentWeapon;
+        player.currentWeapon = WeaponSlot.Ability;
         if (player.currentWeapon == WeaponSlot.Primary)
-        {
-            player.previousWeapon = player.currentWeapon;
-            player.currentWeapon = WeaponSlot.Ability;
             player.EquipPrimary();
-        }
         else if (player.currentWeapon == WeaponSlot.Secondary)
-        {
-            player.previousWeapon = player.currentWeapon;
-            player.currentWeapon = WeaponSlot.Ability;
             player.EquipSecondary();
-        }
         else if (player.currentWeapon == WeaponSlot.Melee)
-        {
-            player.previousWeapon = player.currentWeapon;
-            player.currentWeapon = WeaponSlot.Ability;
             player.EquipMelee();
-        }
         else if (player.previousWeapon == WeaponSlot.Primary)
-        {
-            player.previousWeapon = player.currentWeapon;
-            player.currentWeapon = WeaponSlot.Ability;
             player.EquipPrimary();
-        }
         else if (player.previousWeapon == WeaponSlot.Secondary)
-        {
-            player.previousWeapon = player.currentWeapon;
-            player.currentWeapon = WeaponSlot.Ability;
             player.EquipSecondary();
-        }
         else
-        {
-            player.previousWeapon = player.currentWeapon;
-            player.currentWeapon = WeaponSlot.Ability;
             player.EquipMelee();
-        }
     }
 }
