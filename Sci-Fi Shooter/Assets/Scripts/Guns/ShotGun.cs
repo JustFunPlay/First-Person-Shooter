@@ -25,16 +25,12 @@ public class ShotGun : AdditionalGunInformation
         if (player.inventory.primaryAmmo == 0 && weaponSlot == WeaponSlot.Primary)
         {
             if (!isReloading)
-            {
                 StartCoroutine(Reloading());
-            }
         }
         else if (player.inventory.secondaryAmmo == 0 && weaponSlot == WeaponSlot.Secondary)
         {
             if (!isReloading)
-            {
                 StartCoroutine(Reloading());
-            }
         }
         else if (fireMode == SgFireMode.Double && (callbackContext.started || callbackContext.canceled))
         {
@@ -42,30 +38,22 @@ public class ShotGun : AdditionalGunInformation
             if (player.inventory.primaryAmmo == 0 && weaponSlot == WeaponSlot.Primary)
             {
                 if (!isReloading)
-                {
                     StartCoroutine(Reloading());
-                }
             }
             else if (player.inventory.secondaryAmmo == 0 && weaponSlot == WeaponSlot.Secondary)
             {
                 if (!isReloading)
-                {
                     StartCoroutine(Reloading());
-                }
             }
         }
         else if (fireMode == SgFireMode.Single && callbackContext.started && canFire)
-        {
             StartCoroutine(SingleFire());
-        }
         if (fireMode == SgFireMode.Auto && callbackContext.started)
         {
             faToggle = true;
             keepFiring = true;
             if (canFire)
-            {
                 StartCoroutine(AutoFire());
-            }
         }
         else if (fireMode == SgFireMode.Auto && callbackContext.canceled)
         {
@@ -96,13 +84,9 @@ public class ShotGun : AdditionalGunInformation
     public override void Reload()
     {
         if (!isReloading && player.inventory.primaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Primary)
-        {
             StartCoroutine(Reloading());
-        }
         else if (!isReloading && player.inventory.secondaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Secondary)
-        {
             StartCoroutine(Reloading());
-        }
     }
 
     IEnumerator SingleFire()
@@ -112,13 +96,9 @@ public class ShotGun : AdditionalGunInformation
         yield return new WaitForSeconds(1f / attackSpeed);
         canFire = true;
         if (!isReloading && player.inventory.primaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Primary)
-        {
             StartCoroutine(Reloading());
-        }
         else if (!isReloading && player.inventory.secondaryAmmo < maxAmmo && weaponSlot == WeaponSlot.Secondary)
-        {
             StartCoroutine(Reloading());
-        }
     }
     IEnumerator AutoFire()
     {
@@ -135,13 +115,9 @@ public class ShotGun : AdditionalGunInformation
         }
         canFire = true;
         if (!isReloading && player.inventory.primaryAmmo == 0 && weaponSlot == WeaponSlot.Primary)
-        {
             StartCoroutine(Reloading());
-        }
         else if (!isReloading && player.inventory.secondaryAmmo == 0 && weaponSlot == WeaponSlot.Secondary)
-        {
             StartCoroutine(Reloading());
-        }
     }
     public void ShootBullet()
     {
@@ -152,71 +128,26 @@ public class ShotGun : AdditionalGunInformation
             Vector3 bulletDirection = new Vector3(Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy), Random.Range(-convertedAccuracy, convertedAccuracy));
 
             if (i < fixedPellets.Length)
-            {
-
-                if (Physics.Raycast(firePoint.position, firePoint.forward + firePoint.TransformDirection(fixedPellets[i]), out RaycastHit hit, 500f))
-                {
-                    if (hit.collider.GetComponent<HitBox>())
-                    {
-                        hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                    }
-                    Instantiate(fakeHit, hit.point, Quaternion.identity);
-                    //GameObject newTrail = Instantiate(Brail, firePoint.position, Quaternion.identity);
-                    //newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                    //newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
-                }
-                else
-                {
-                    //GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                    //newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                    //newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + fixedPellets[i]) * 500);
-                }
-            }
-            else if (Physics.Raycast(firePoint.position, firePoint.forward + bulletDirection, out RaycastHit hit, 500f))
-            {
-                if (hit.collider.GetComponent<HitBox>())
-                {
-                    hit.collider.GetComponent<HitBox>().HitDamage(damage);
-                }
-                Instantiate(fakeHit, hit.point, Quaternion.identity);
-                //GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                //newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                //newTrail.GetComponent<LineRenderer>().SetPosition(1, hit.point);
-            }
+                FireBullet(fixedPellets[i]);
             else
-            {
-                //GameObject newTrail = Instantiate(trail, firePoint.position, Quaternion.identity);
-                //newTrail.GetComponent<LineRenderer>().SetPosition(0, firePoint.position);
-                //newTrail.GetComponent<LineRenderer>().SetPosition(1, firePoint.position + (firePoint.forward + bulletDirection) * 500);
-            }
-            
+                FireBullet(bulletDirection);
         }
         if (weaponSlot == WeaponSlot.Primary)
-        {
             player.inventory.primaryAmmo--;
-        }
         else if (weaponSlot == WeaponSlot.Secondary)
-        {
             player.inventory.secondaryAmmo--;
-        }
         player.UpdateAmmo(ammoType, weaponSlot);
         if (animator.GetBool("ADS") == true)
-        {
             GetComponentInParent<RecoilScript>().Recoil(recoilValue * ((100 - adsRecoilReduction)/100), RecoilType.Procedural);
-        }
         else
-        {
             GetComponentInParent<RecoilScript>().Recoil(recoilValue, RecoilType.Procedural);
-        }
     }
     IEnumerator Reloading()
     {
         canFire = false;
         isReloading = true;
         if (faToggle)
-        {
             faToggle = false;
-        }
         animator.speed = 1f / reloadTime;
         animator.SetTrigger("Reload");
         yield return new WaitForSeconds(reloadTime);

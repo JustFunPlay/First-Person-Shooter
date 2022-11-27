@@ -38,6 +38,8 @@ public class PlayerControll : CharacterHealth
         weaponInHand = Instantiate(inventory.meleeWeapon, cam.position, cam.rotation, cam);
         weaponInHand.GetComponent<GunBase>().OnEquip(this);
         baseFov = GetComponentInChildren<Camera>().fieldOfView;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public void OnMove(InputAction.CallbackContext callbackContext)

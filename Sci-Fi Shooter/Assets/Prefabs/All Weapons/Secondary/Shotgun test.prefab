@@ -641,16 +641,13 @@ MonoBehaviour:
   unEquipTime: 0
   canFire: 0
   player: {fileID: 0}
-  firePoint: {fileID: 0}
+  firePoint: {fileID: 2414927980378979088}
   fakeHit: {fileID: 5241150577118110587, guid: 2b522d72b62cd6e43a1cbde75c3910a1, type: 3}
   bulletTrail: {fileID: 8983428547366053552, guid: 83bc0703e3a301e498a833c89c90864f, type: 3}
   recoilValue: {x: 10, y: 10, z: 3}
   accuracy: 63.2
   adsRecoilReduction: 50
   animator: {fileID: 1738311151427757675}
-  bangableLayer:
-    serializedVersion: 2
-    m_Bits: 128
   bangable:
     serializedVersion: 2
     m_Bits: 119
